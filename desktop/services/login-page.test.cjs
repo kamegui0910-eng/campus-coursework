@@ -12,21 +12,26 @@ function page(inputSpecs, bodyText) {
   const listeners = {}, messages = [];
   class Element {}
   class HTMLInputElement extends Element {
-    constructor({ type, name, autocomplete = '' }) {
+    constructor({ type, name, autocomplete = '', staticLabel = '' }) {
       super();
-      Object.assign(this, { type, name, id: name, autocomplete, tagName: 'INPUT', disabled: false, writes: [], events: [] });
+      Object.assign(this, { type, name, id: name, autocomplete, staticLabel, tagName: 'INPUT', disabled: false, writes: [], events: [], clicks: 0 });
     }
     get value() { throw new Error('The recorder must not read entered values'); }
     set value(next) { this.writes.push(next); }
     getClientRects() { return [1]; }
-    getAttribute(name) { return name === 'autocomplete' ? this.autocomplete : ''; }
+    getAttribute(name) { return name === 'autocomplete' ? this.autocomplete : name === 'value' ? this.staticLabel : ''; }
     dispatchEvent(event) { this.events.push(event.type); }
+    closest(selector) { return selector.includes(`input[type="${this.type}"]`) ? this : null; }
+    click() { this.clicks++; }
   }
   const inputs = inputSpecs.map(spec => new HTMLInputElement(spec));
+  const body = Object.assign(new Element(), { tagName: 'BODY', innerText: bodyText, parentElement: null, children: inputs });
+  inputs.forEach(input => { input.parentElement = body; });
+  const selected = selector => inputs.find(input => selector === '#' + input.id) || inputs[Number(selector.match(/^body:nth-of-type\(1\) > input:nth-of-type\((\d+)\)$/)?.[1]) - 1] || null;
   const document = {
-    body: { innerText: bodyText },
-    querySelectorAll(selector) { return ['input', 'input,iframe'].includes(selector) ? inputs : []; },
-    querySelector(selector) { return inputs.find(input => selector === '#' + input.id) || null; },
+    body,
+    querySelectorAll(selector) { return ['input', 'input,iframe'].includes(selector) ? inputs : selected(selector) ? [selected(selector)] : []; },
+    querySelector: selected,
     addEventListener(name, callback) { listeners[name] = callback; }
   };
   const window = { addEventListener(name, callback) { listeners[name] = callback; } };
@@ -95,4 +100,18 @@ test('phone approval pauses automation even without an OTP input', () => {
   assert.equal(fixture.api.inspect().blocked, 'verification');
   assert.equal(fixture.api.inspect().loginFields, false);
   assert.equal(fixture.api.fill('#absent', 'password', 'unused-fixture', origin, '/login').filled, false);
+});
+
+test('static input button labels replay and record without reading input value properties', () => {
+  for (const [type, staticLabel, label] of [['submit', 'Next', 'next'], ['submit', 'Sign in', 'login'], ['button', 'Next', 'next']]) {
+    const fixture = page([{ type: 'email', name: 'email' }, { type, name: 'action', staticLabel }], 'Sign in');
+    assert.equal(fixture.api.click('#action', label, '', origin, '/login').clicked, true);
+    assert.equal(fixture.inputs[1].clicks, 1);
+    fixture.listeners['campus:login-mode'](null, { recording: true });
+    fixture.listeners.click({ isTrusted: true, target: fixture.inputs[1] });
+    assert.equal(fixture.messages.length, 1);
+    assert.equal(fixture.messages[0].payload.kind, 'click');
+    assert.equal(fixture.messages[0].payload.label, label);
+    assert.equal(Object.hasOwn(fixture.messages[0].payload, 'value'), false);
+  }
 });

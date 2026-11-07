@@ -27,7 +27,8 @@ if (window.top === window) {
   }
   const fields = () => [...document.querySelectorAll('input')].filter(element => fieldKind(element));
   function labelFor(element) {
-    const text = (element.innerText || element.getAttribute('aria-label') || '').trim().toLowerCase();
+    const staticButtonLabel = element instanceof HTMLInputElement && ['submit', 'button'].includes(element.type) ? element.getAttribute('value') : '';
+    const text = (element.innerText || element.getAttribute('aria-label') || staticButtonLabel || '').trim().toLowerCase();
     if (/student.{0,12}(?:login|sign in)|学生登录|学生入口/.test(text)) return 'student-login';
     if (text.includes('@')) return 'account';
     if (/^(?:next|下一步|下一页)$/.test(text)) return fields().length ? 'next' : 'other';
@@ -84,7 +85,7 @@ if (window.top === window) {
   }, true);
   document.addEventListener('click', event => {
     if (!event.isTrusted || !(event.target instanceof Element) || inspect().blocked) return;
-    const element = event.target.closest('a,button,input[type="submit"],[role="button"]');
+    const element = event.target.closest('a,button,input[type="submit"],input[type="button"],[role="button"]');
     if (!visible(element)) return;
     const label = labelFor(element), selector = label !== 'other' && selectorFor(element);
     if (selector) send({ kind: 'click', selector, label });

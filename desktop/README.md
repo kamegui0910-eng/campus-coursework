@@ -47,4 +47,4 @@ node --test services/*.test.cjs
 
 Windows 打包可用 `scripts/build-portable.ps1 -RuntimeZip <已校验的Electron45.2.3 Windows x64 ZIP> -OutputRoot <输出目录>`。构建器拒绝覆盖已有版本目录；先完成依赖安装，再构建。`fetch-runtime.ps1` 提供本项目缓存下载，包含固定 SHA-256 校验。
 
-运行数据和 `node_modules` 不提交源码仓库。桌面版源代码版本为0.2.0，底层课程 skill 为1.6.0；两者分别管理版本。
+运行数据和 `node_modules` 不提交源码仓库。桌面版源代码版本为0.2.1，底层课程 skill 为1.6.0；两者分别管理版本。

@@ -1,4 +1,4 @@
-param([string]$RuntimeZip,[string]$OutputRoot,[string]$Version='0.2.0')
+param([string]$RuntimeZip,[string]$OutputRoot,[string]$Version='0.2.1')
 $ErrorActionPreference='Stop'
 $desktopSource=[System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $desktopRepository=[System.IO.Path]::GetFullPath((Join-Path $desktopSource '..'))
