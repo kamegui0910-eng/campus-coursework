@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Campus Coursework · 课程工作台</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="主导航">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span>CAMPUS<br><b>COURSEWORK</b></span>
+      </div>
+      <div class="sidebar-label">你的课程空间 <span>WORKSPACE</span></div>
+      <nav id="navigation"></nav>
+      <div class="sidebar-bottom">
+        <div class="independent-note">
+          <span class="spark" aria-hidden="true"></span>
+          <b>你的模型，你的节奏。</b>
+          <p>把资料、想法与每一步进度，<br>留在自己的工作空间。</p>
+          <span class="small-caps">YOUR MODEL. YOUR SPACE.</span>
+        </div>
+        <button class="sidebar-link" data-action="github"><span id="github-icon"></span> 项目与使用说明 <span class="outward">↗</span></button>
+        <div class="sidebar-version"><span class="tiny-dot"></span> DESKTOP WORKSPACE <span>0.2</span></div>
+      </div>
+    </aside>
+    <div class="main-shell">
+      <div class="windowbar"><span><i class="window-dot"></i> CAMPUS COURSEWORK</span><span class="windowbar-note">一切进展，有迹可循。</span></div>
+      <header class="topbar">
+        <div class="breadcrumb">工作空间 <span>/</span> <b id="breadcrumb-title">总览</b></div>
+        <div class="topbar-actions">
+          <button class="icon-button search-button" data-action="search" aria-label="搜索课程资料"><span id="search-icon"></span><span>搜索资料</span><kbd>Ctrl K</kbd></button>
+          <button class="model-status" data-route="settings" id="top-model-status"><i></i> 模型待配置</button>
+          <span class="avatar" aria-label="本地个人工作空间">C<span></span></span>
+        </div>
+      </header>
+      <div id="preview-banner" class="preview-banner" hidden>界面预览模式：请从桌面 EXE 启动以使用本地文件、模型和学校连接。</div>
+      <main id="content" tabindex="-1"></main>
+      <footer class="statusbar"><span><i class="tiny-dot"></i> <span id="workspace-status">本地工作空间</span></span><span id="runtime-status">准备就绪</span></footer>
+    </div>
+  </div>
+  <div class="progress-track" id="progress-track" hidden><span></span></div>
+  <div class="toast-host" id="toast-host" aria-live="polite" aria-atomic="true"></div>
+  <dialog id="modal" class="modal"></dialog>
+</body>
+</html>

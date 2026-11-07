@@ -13,10 +13,21 @@ tmp/
 *.key
 credentials*.json
 token*.json
+school-logins.json
+secrets.encrypted.json
+desktop.json
+config.json
+Partitions/
+Session Storage/
+Local Storage/
+Network/
+Cookies*
 profile.json
 runtime.json
 grants.json
 node_modules/
+.cache/
+dist/
 __pycache__/
 *.pyc
 .DS_Store

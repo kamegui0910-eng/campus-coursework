@@ -4,7 +4,12 @@
     "name": null,
     "lms_url": null,
     "login_route": null,
-    "account_reference": null
+    "account_reference": null,
+    "login_profile_reference": null,
+    "credential_reference": null,
+    "browser_session_reference": null,
+    "allowed_origins": [],
+    "login_verification_status": "not_run"
   },
   "student": {
     "display_name": null,

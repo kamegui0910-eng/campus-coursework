@@ -32,6 +32,7 @@ description: >
 |---|---|
 | 首次接入、恢复、记录授权与状态 | [onboarding-state.md](references/onboarding-state.md) |
 | 分享给朋友、换模型/API或运行设备 | [portable-runtime.md](references/portable-runtime.md) |
+| 首次学校登录、演示登录步骤、复用或清除会话 | [school-login.md](references/school-login.md) |
 | 登录、找大纲、读教材或核对原始要求 | [lms-and-sources.md](references/lms-and-sources.md) |
 | 建课程资料库、同步版本、按作业取章节或恢复下载 | [course-library.md](references/course-library.md) |
 | 派发任务、创建/更新定时任务 | [delegation-and-schedules.md](references/delegation-and-schedules.md) |
@@ -43,7 +44,7 @@ description: >
 
 优先用足以完成任务的已连接工具；需要网页或 Windows 时，读取当前可用 Computer Use 技能及其操作/确认规则，再操作真实页面。使用者已有登录偏好时沿用；其他学校按实际提供的学生/SSO入口，不套用作者学校的邮箱或登录顺序。
 
-复用有效会话，核验返回后的学校、本人身份和课程页面。需要密码、验证码、CAPTCHA 或本人同意协议时由使用者在正规页面完成；不索取聊天内密码，不打包会话。跨入教材、图书馆等系统后单独验证访问。
+首次学校登录或需要恢复时读 [学校登录设置](references/school-login.md)：在本人设备填写入口和账号，可用加密凭据库时按本人选择记住密码；本人演示一次正规登录，保存去除输入值的步骤并复用每个账号自己的持久会话。先核验返回后的学校、本人身份和课程页面。密码不进聊天、提示词或分享包；验证码、CAPTCHA、手机验证或本人同意协议由本人在正规页面完成。跨入教材、图书馆等系统后单独验证访问。
 
 枚举可见的当前课程及各自 term，区分 active、future、concluded、archived。只推进授权范围内的 active 课程。大纲通常按课程提供；每节课的安排从大纲周表和实际 Modules/单元资料读取，不虚构每节课独立的 syllabus。
 

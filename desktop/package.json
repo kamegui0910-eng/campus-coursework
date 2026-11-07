@@ -1,0 +1,18 @@
+{
+  "name": "campus-coursework-desktop",
+  "productName": "Campus Coursework",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Independent course workspace with per-user AI configuration",
+  "main": "main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test services/*.test.cjs"
+  },
+  "engines": {"node": ">=24"},
+  "dependencies": {
+    "pdfjs-dist": "5.6.205",
+    "@napi-rs/canvas": "0.1.100"
+  },
+  "devDependencies": {"electron": "45.2.3"}
+}

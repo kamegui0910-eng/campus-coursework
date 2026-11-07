@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "skill": "campus-coursework",
-  "package_version": "1.5.0",
+  "package_version": "1.6.0",
   "created_on": "2026-11-06",
   "manifest_self_excluded": true,
   "files": [
@@ -17,13 +17,13 @@
     },
     {
       "path": "assets/profile.example.json",
-      "bytes": 2471,
-      "sha256": "df676d61985a323b8ac7ce71868cd10adcb08f9311c06fe9a376401dd6dd1215"
+      "bytes": 2652,
+      "sha256": "7421493dcf7aa5cc43b3985e4e990944d84db3a87c22c003c9aa1c7016b95707"
     },
     {
       "path": "assets/runtime.example.json",
-      "bytes": 899,
-      "sha256": "8d4e24920639acf96c9396a8dc62fbcd06294ff5578452959d6b8e07f3ae9d05"
+      "bytes": 1033,
+      "sha256": "8a069e3516d838c0dfbd088c5a877e3b071fca223e6accfec8eabcea44d05405"
     },
     {
       "path": "assets/worker-prompt.md",
@@ -57,18 +57,23 @@
     },
     {
       "path": "references/lms-and-sources.md",
-      "bytes": 5288,
-      "sha256": "9651b32a9ec318b19f8987a647441c84c0f2dfa15a36c2b80ac3153fb1c28d90"
+      "bytes": 5453,
+      "sha256": "8caf2b254420b31dc6803fe18b3977c7f71e1ae103d388c29be66074b0f66b48"
     },
     {
       "path": "references/onboarding-state.md",
-      "bytes": 10538,
-      "sha256": "d1e7724e5a50559d1c43192fa20adf12db30dd8ad78f6e565a81149289eceb8a"
+      "bytes": 10787,
+      "sha256": "411f0c1f14c6833d3f52aeddc91f65afe621f121425a1b0af17c87ed4f7a0186"
     },
     {
       "path": "references/portable-runtime.md",
-      "bytes": 7566,
-      "sha256": "d6714863175c2fdcb58cab0fa2a94d7c2a91e48dc9d610961de0a8bc275cda14"
+      "bytes": 7811,
+      "sha256": "0ae8021a889442e85e0c9d47c425b9800da6c43f2bea08f35003e2ac32dcc916"
+    },
+    {
+      "path": "references/school-login.md",
+      "bytes": 4561,
+      "sha256": "91f732cadb26551658c355c2d259e9150e699328cd2d3195d1cf6d6aaf104636"
     },
     {
       "path": "references/skill-routing.md",
@@ -92,13 +97,13 @@
     },
     {
       "path": "SKILL.md",
-      "bytes": 14424,
-      "sha256": "2a0ca5fc6b85e485357a995aa7b04519c4ea04eedbf84bf0dbf10163cea1e1ae"
+      "bytes": 14808,
+      "sha256": "7b5e4ed40f79ab42afd1f1954b2088dc19b92e76b6dae868cb58f8992627349d"
     },
     {
       "path": "START_FOR_AI.txt",
-      "bytes": 3071,
-      "sha256": "cf7c7d46b6521b80cfed06320433e8b1e9296931f8dcdea5a74517ebaec06124"
+      "bytes": 3481,
+      "sha256": "3ca5a27b6f611e88fd7228812a5e67f03714234a179a625e036d87fa16ceeda9"
     },
     {
       "path": "分享与使用.md",
