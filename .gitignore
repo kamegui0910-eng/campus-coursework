@@ -32,3 +32,5 @@ __pycache__/
 *.pyc
 .DS_Store
 Thumbs.db
+!cloud/lib/coursework/
+!cloud/lib/coursework/**
