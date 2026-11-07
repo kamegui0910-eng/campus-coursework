@@ -1,1 +1,1 @@
-Portable agent skill for syllabus-first course libraries, chapter-aware assignment workflows, recurring coordination, and verifiable review. Bring your own model and tools.
+提供课程大纲和资料，让 AI 帮你整理课程、起草和检查作业。 / Give AI your syllabus and materials to organize courses, draft and review assignments.
