@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "host": {
+    "name": null,
+    "version": null,
+    "location": "unconfigured"
+  },
+  "model_connection": {
+    "mode": "host_managed",
+    "provider": null,
+    "model_id": null,
+    "base_url": null,
+    "api_style": null,
+    "credential_reference": null,
+    "adapter_reference": null,
+    "verification_status": "not_run",
+    "verified_at": null
+  },
+  "capabilities": {
+    "skill_and_reference_reading": "unknown",
+    "persistent_files": "unknown",
+    "authenticated_lms_access": "unknown",
+    "pdf_and_textbook_reading": "unknown",
+    "document_rendering": "unknown",
+    "delegation": "unknown",
+    "browser_or_computer_use": "unknown",
+    "detector_pre_submission_reports": "unknown",
+    "scheduling": "unknown",
+    "submission_and_receipt_verification": "unknown"
+  },
+  "evidence": [],
+  "setup_status": "unconfigured",
+  "setup_report_path": null
+}

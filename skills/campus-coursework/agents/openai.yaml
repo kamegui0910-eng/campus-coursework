@@ -1,0 +1,4 @@
+interface:
+  display_name: "课程与作业总控"
+  short_description: "从学校登录与大纲核验，到教材阅读、作业分工、定时推进、最终审计与授权提交"
+  default_prompt: "使用 $campus-coursework，先核验我的学校系统和本学期课程，完整读取各课程 syllabus，再按真实要求安排作业任务、定时推进、最终审计和提交方式。"

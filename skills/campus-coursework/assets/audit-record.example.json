@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "audit_id": null,
+  "task_key": null,
+  "auditor_reference": null,
+  "started_at": null,
+  "completed_at": null,
+  "status": "Pending",
+  "artifact": {
+    "path": null,
+    "sha256": null,
+    "text_path": null,
+    "text_sha256": null,
+    "text_scope": "full_body_with_headings_and_in_text_citations",
+    "scope_exclusions": []
+  },
+  "requirements_revision": null,
+  "course_library": {
+    "bundle_path": null,
+    "bundle_fingerprint": null,
+    "source_version_references": [],
+    "requirements_rechecked_at": null,
+    "dependency_review": "unknown"
+  },
+  "policy_revision": null,
+  "external_processing_authorization_reference": null,
+  "submission_grant_reference": null,
+  "skill_usage": [],
+  "rubric_reference": null,
+  "quality_checks": {
+    "requirements_and_rubric": "unknown",
+    "evidence_and_citations": "unknown",
+    "student_facts_and_viewpoints": "unknown",
+    "assistance_policy_and_disclosure": "unknown",
+    "length_and_rendered_layout": "unknown"
+  },
+  "detector_policy": {
+    "policy_version": "qualifying-prose-length-v2",
+    "selection_type": "qualifying_prose_word_count",
+    "qualifying_prose_word_count": null,
+    "word_count_method": null,
+    "word_count_scope": null,
+    "word_count_evidence_reference": null,
+    "selection_status": "needs_word_count",
+    "selection_reason": null,
+    "required_provider_ids": [],
+    "turnitin_requirement_status": "undetermined",
+    "aggregation": "all_required",
+    "threshold_percent_exclusive": 20
+  },
+  "detector_results": [],
+  "revision_round": 0,
+  "revision_history": [],
+  "blockers": [],
+  "release": {
+    "approved": false,
+    "issued_at": null,
+    "artifact_sha256": null,
+    "text_sha256": null,
+    "requirements_revision": null,
+    "bundle_fingerprint": null,
+    "policy_revision": null
+  }
+}

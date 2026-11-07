@@ -1,0 +1,23 @@
+# Private coursework runtime data belongs outside this public repository.
+coursework/
+courses/
+private/
+submissions/
+audits/
+outputs/
+tmp/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+token*.json
+profile.json
+runtime.json
+grants.json
+node_modules/
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db

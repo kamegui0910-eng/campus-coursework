@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "skill": "campus-coursework",
+  "package_version": "1.5.0",
+  "created_on": "2026-11-06",
+  "manifest_self_excluded": true,
+  "files": [
+    {
+      "path": "agents/openai.yaml",
+      "bytes": 401,
+      "sha256": "2e102f9efec9f6ea06caa5fb29a4a943160e14d114c933ed5c1d006517f97814"
+    },
+    {
+      "path": "assets/audit-record.example.json",
+      "bytes": 1831,
+      "sha256": "4c6ed60a8ef693771c8d641147911a89092e41e2818e47aab6314edca3cd3352"
+    },
+    {
+      "path": "assets/profile.example.json",
+      "bytes": 2471,
+      "sha256": "df676d61985a323b8ac7ce71868cd10adcb08f9311c06fe9a376401dd6dd1215"
+    },
+    {
+      "path": "assets/runtime.example.json",
+      "bytes": 899,
+      "sha256": "8d4e24920639acf96c9396a8dc62fbcd06294ff5578452959d6b8e07f3ae9d05"
+    },
+    {
+      "path": "assets/worker-prompt.md",
+      "bytes": 5301,
+      "sha256": "841b4005cef140ccc3bd95afcb0477ecbc8ab138542a0020a85029b8d052be56"
+    },
+    {
+      "path": "references/course-library-helper.md",
+      "bytes": 8871,
+      "sha256": "359835f33f58197448d2f23572cb4219ec05ab9d7ca5be665b92ca81b2056ddb"
+    },
+    {
+      "path": "references/course-library.md",
+      "bytes": 8348,
+      "sha256": "1d6f869ee25bdabf40b97d5056b1707d2bdfaf94aac89882c54306ec85b7de36"
+    },
+    {
+      "path": "references/delegation-and-schedules.md",
+      "bytes": 7839,
+      "sha256": "fd0e3632768d4260fdde3b35306a22297e59acf589a611d9c47d7b5b55113f16"
+    },
+    {
+      "path": "references/detector-standards.md",
+      "bytes": 4421,
+      "sha256": "109879b237e60961a00962dd9430b0b1d59c8f19383e30b56985609bbe72a520"
+    },
+    {
+      "path": "references/final-audit.md",
+      "bytes": 9606,
+      "sha256": "b023ebdb9fdcbc354c8b47a8cfe829c1497913ea9c6769fe354a38617a07e424"
+    },
+    {
+      "path": "references/lms-and-sources.md",
+      "bytes": 5288,
+      "sha256": "9651b32a9ec318b19f8987a647441c84c0f2dfa15a36c2b80ac3153fb1c28d90"
+    },
+    {
+      "path": "references/onboarding-state.md",
+      "bytes": 10538,
+      "sha256": "d1e7724e5a50559d1c43192fa20adf12db30dd8ad78f6e565a81149289eceb8a"
+    },
+    {
+      "path": "references/portable-runtime.md",
+      "bytes": 7566,
+      "sha256": "d6714863175c2fdcb58cab0fa2a94d7c2a91e48dc9d610961de0a8bc275cda14"
+    },
+    {
+      "path": "references/skill-routing.md",
+      "bytes": 4621,
+      "sha256": "21b4be04f69a43a813445db874afa330e2f1a4824e5ea247fbe5dfa225b937c2"
+    },
+    {
+      "path": "references/writing-and-submission.md",
+      "bytes": 8212,
+      "sha256": "106b23277895055f95b552971eed553b35bb6f1df0dd8a6687241994b5711e33"
+    },
+    {
+      "path": "scripts/course-library.mjs",
+      "bytes": 18986,
+      "sha256": "9f67ca8e593f364b04a64415cd030182d82a364cf041bef19a8c7d291222c56e"
+    },
+    {
+      "path": "scripts/course-library.test.mjs",
+      "bytes": 12379,
+      "sha256": "d6414be4f984e0a1ac40836e05218166b6ecc67dba3359ecd4318b722622ed6c"
+    },
+    {
+      "path": "SKILL.md",
+      "bytes": 14424,
+      "sha256": "2a0ca5fc6b85e485357a995aa7b04519c4ea04eedbf84bf0dbf10163cea1e1ae"
+    },
+    {
+      "path": "START_FOR_AI.txt",
+      "bytes": 3071,
+      "sha256": "cf7c7d46b6521b80cfed06320433e8b1e9296931f8dcdea5a74517ebaec06124"
+    },
+    {
+      "path": "分享与使用.md",
+      "bytes": 7889,
+      "sha256": "fa35544cb819c9e6f3835f1259ae6439e215e207e6cdba6d841526497181b335"
+    }
+  ]
+}

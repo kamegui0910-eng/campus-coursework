@@ -1,0 +1,89 @@
+{
+  "schema_version": 2,
+  "school": {
+    "name": null,
+    "lms_url": null,
+    "login_route": null,
+    "account_reference": null
+  },
+  "student": {
+    "display_name": null,
+    "confirmed_personal_facts": []
+  },
+  "timezone": null,
+  "term": {
+    "label": null,
+    "start": null,
+    "end": null
+  },
+  "course_scope": {
+    "mode": "explicit_courses",
+    "included_course_ids": [],
+    "excluded_course_ids": []
+  },
+  "language": {
+    "updates": "zh-CN",
+    "assignments": "en"
+  },
+  "format_defaults": {
+    "font": "Times New Roman",
+    "font_size_pt": 12,
+    "line_spacing": 2,
+    "citation_style": "APA7",
+    "add_optional_ai_statement": false
+  },
+  "submission": {
+    "mode": "draft_only",
+    "grant_ids": []
+  },
+  "course_library": {
+    "collection_mode": "incremental",
+    "refresh_before_each_assignment": true,
+    "preserve_source_versions": true,
+    "on_download_failure": "record_observed_reason_and_manual_recovery"
+  },
+  "final_audit": {
+    "required": true,
+    "owner_role": "final-audit",
+    "browser_mode": "dedicated_supported_session_or_computer_use",
+    "browser_session_reference": null,
+    "external_processing_authorization_reference": null,
+    "threshold_percent_exclusive": 20,
+    "aggregation": "all_required",
+    "detector_selection": {
+      "policy_version": "qualifying-prose-length-v2",
+      "type": "qualifying_prose_word_count",
+      "turnitin_minimum_qualifying_prose_words": 300,
+      "short_text_required_provider_ids": ["copyleaks"],
+      "standard_text_required_provider_ids": ["copyleaks", "turnitin"],
+      "unknown_word_count_action": "blocked",
+      "respect_each_provider_input_requirements": true
+    },
+    "providers": [
+      {
+        "id": "copyleaks",
+        "official_url": "https://copyleaks.com/ai-detector",
+        "authorized_access_url": null,
+        "account_reference": null,
+        "pre_submission_access_verified": false
+      },
+      {
+        "id": "turnitin",
+        "official_url": "https://www.turnitin.com/",
+        "authorized_access_url": null,
+        "account_reference": null,
+        "pre_submission_access_verified": false
+      }
+    ],
+    "text_scope": "full_body_with_headings_and_in_text_citations",
+    "max_revision_rounds": 3,
+    "max_technical_retries_per_provider": 2
+  },
+  "scheduling": {
+    "requested": false,
+    "authorization_reference": null,
+    "scheduler": null,
+    "execution_environment": null,
+    "schedule_ids": []
+  }
+}
