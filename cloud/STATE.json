@@ -33,10 +33,13 @@
     "server-verified recommended model choice stored with fixed settings",
     "searchable manual model selection and specialist filtering",
     "compact provider buttons and clearer configuration hierarchy",
-    "current model shown before work and actual model recorded on output"
+    "current model shown before work and actual model recorded on output",
+    "interactive model literacy guide for 12 discipline groups and six material types",
+    "model-family comparison and exact current file/tool support reference",
+    "explicitly apply an account-available text model for the selected learning context"
   ],
   "verification": {
-    "tests": "Application suite: 9 files pass; collector separately: 1 file passes. Combined collector/application run has service timeout; isolated suites verified.",
+    "tests": "Application suite: 10 files pass; unchanged collector suite previously passed separately; combined test limitation recorded in decisions",
     "typecheck": "passed",
     "build": "passed",
     "browser": "mocked collector and import integration; real school and browser extension not yet tested"
@@ -50,6 +53,6 @@
     "phone-only remote browser provider setup",
     "real user-approved OpenRouter authorization round trip"
   ],
-  "production": "v10 live; model recommendations and visual refinement pending",
-  "github": "Authorized; v10 merged via PR #4; new recommendation release pending sync"
+  "production": "v11 live; discipline/material guide release pending",
+  "github": "Authorized; v11 merged via PR #5; guide release pending sync"
 }
