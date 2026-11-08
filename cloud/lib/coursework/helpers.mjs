@@ -28,7 +28,7 @@ export function modelSettings(value = {}) {
     baseUrl:publicUrl(value.baseUrl).replace(/\/(?:chat\/completions|responses|messages|models)$/, '').replace(/\/+$/, '') };
 }
 export function secretText(value) {
-  if (typeof value !== 'string' || value.length > 16384 || /[\r\n\0]/.test(value)) throw new Error('密钥格式不正确，请重新填写。');
+  if (typeof value !== 'string' || value.length > 16384 || /[\r\n\0]/.test(value.trim())) throw new Error('密钥格式不正确，请重新填写。');
   return value.trim();
 }
 const bytes = value => typeof value === 'string' ? new TextEncoder().encode(value) : value;

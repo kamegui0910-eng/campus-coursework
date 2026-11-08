@@ -1,15 +1,17 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {AI_PROVIDERS,providerById,providerForUrl,guideImage} from './provider-guides.mjs';
+import {AI_PROVIDERS,providerById,providerForUrl} from './provider-guides.mjs';
+import {screenshotGuide} from './screenshots.mjs';
 import {createModelClient} from '../coursework/models.mjs';
-test('every manual provider has both four-step device guides with no active or remote SVG content',()=>{
+test('real screenshot references have provenance and locally available unmodified PNG assets',()=>{
  for(const provider of AI_PROVIDERS){
-  assert.equal(provider.steps.length,4);
-  for(const device of ['mobile','desktop'])for(let step=0;step<4;step++){
-   const path=guideImage(provider.id,device,step),svg=readFileSync(new URL('../../public'+path,import.meta.url),'utf8');
-   assert(svg.includes('非官网截图'));assert(svg.includes('<title'));assert(svg.includes('<desc'));
-   assert(!/<script|<foreignObject|onload=|href=/i.test(svg));assert(!svg.includes('sk-ant-'));assert(!svg.includes('sk-proj-'));
+  const guide=screenshotGuide(provider.id);
+  if(provider.id==='custom'){assert.equal(guide,null);continue;}
+  assert(guide.credit);assert(guide.source.startsWith('https://'));assert(guide.items.length);
+  for(const item of guide.items){
+   assert(item.src.startsWith('/guides/screenshots/'));const bytes=readFileSync(new URL('../../public'+item.src,import.meta.url));
+   assert.equal(bytes.subarray(0,8).toString('hex'),'89504e470d0a1a0a');assert(bytes.length>10000);assert(item.title&&item.caption);
   }
  }
  assert.equal(providerById('unknown').id,'custom');assert.equal(providerForUrl('https://api.openai.com/v1/').id,'openai');

@@ -10,4 +10,3 @@ export const AI_PROVIDERS=[
 ];
 export const providerById=id=>AI_PROVIDERS.find(p=>p.id===id)||AI_PROVIDERS[AI_PROVIDERS.length-1];
 export function providerForUrl(url){return AI_PROVIDERS.find(p=>p.url&&p.url.replace(/\/$/,'')===String(url||'').replace(/\/$/,''))||AI_PROVIDERS[AI_PROVIDERS.length-1];}
-export const guideImage=(provider,device,step)=>`/guides/${provider}-${device}-${step+1}.svg`;
