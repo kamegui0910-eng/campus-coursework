@@ -20,10 +20,14 @@
     "first-run four-step contextual setup before dashboard",
     "owner-scoped saved setup progress and server completion checks",
     "AI-optional setup, minimal first course and in-place field guidance",
-    "committed-source GitHub mirror helper with verified/pending receipts"
+    "committed-source GitHub mirror helper with verified/pending receipts",
+    "optional OpenRouter PKCE authorization without copying API key",
+    "model discovery and selection without copying model ID",
+    "mobile help links outside labels with full-page navigation and copy fallback",
+    "Field Notes setup redesign using user-supplied five-color palette"
   ],
   "verification": {
-    "tests": "40 behavior cases; six test files pass",
+    "tests": "44 behavior cases across seven passing test files",
     "typecheck": "passed",
     "build": "passed",
     "browser": "mocked collector and import integration; real school and browser extension not yet tested"
@@ -34,8 +38,9 @@
     "real school authorization/sync testing",
     "browser UI QA",
     "Windows desktop feature parity",
-    "phone-only remote browser provider setup"
+    "phone-only remote browser provider setup",
+    "real user-approved OpenRouter authorization round trip"
   ],
-  "production": "Guided setup release pending publication",
-  "github": "connection reports zero installations; write requires repository access"
+  "production": "v7 live; simplified connection and redesign pending publication",
+  "github": "Write authorization fixed; previous release merged to main via PR #1; this release pending sync"
 }

@@ -378,6 +378,13 @@ export function createCourseworkService({db,bucket,encryptionKey,user,fetchImpl=
         if(p.apiKey)saved.model_secret=await protect(secretText(p.apiKey),'model');
         saved.model=JSON.stringify(next);await saveSettings(saved,'model');return {message:'模型设置已保存。',settings:{...next,hasKey:Boolean(saved.model_secret)}};
       }
+      case 'model.discover':{
+        const saved=await savedSettings(),previous=json<Row>(saved.model,{}),settings=modelSettings({...p,model:p.model||'_discovery_'});
+        const sameOrigin=Boolean(previous.baseUrl&&new URL(previous.baseUrl).origin===new URL(settings.baseUrl).origin);
+        const apiKey=p.apiKey?secretText(p.apiKey):sameOrigin?await key(saved.model_secret,'model'):'';
+        if(!apiKey)throw new Error('请先粘贴当前平台的密钥，或使用快捷授权。');
+        return createModelClient({settings,apiKey,fetchImpl}).test();
+      }
       case 'model.test':{const saved=await savedSettings();return createModelClient({settings:json(saved.model,{}),apiKey:await key(saved.model_secret,'model'),fetchImpl}).test();}
       case 'canvas.save':{
         const saved=await savedSettings(),previous=json<Row>(saved.canvas,{}),baseUrl=new URL(publicUrl(p.baseUrl,'Canvas 地址')).origin,email=text(p.email,'学校邮箱',254);

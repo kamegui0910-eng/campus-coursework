@@ -29,6 +29,13 @@
       "when": 1794161315787,
       "tag": "0003_fair_gideon",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1794163503123,
+      "tag": "0004_far_terrax",
+      "breakpoints": true
     }
   ]
 }
