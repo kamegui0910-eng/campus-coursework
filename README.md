@@ -1,5 +1,7 @@
 # Campus Coursework
 
+**电脑端 Codex 接续云端开发：**先读 [START_FOR_CODEX.txt](START_FOR_CODEX.txt) 和 [最新交接说明](cloud/HANDOFF.md)，使用 [同步 Skill](cloud/skills/cloud-local-sync/SKILL.md)。
+
 ## 中文
 
 **你提供：**自己的 AI 模型/API、课程大纲（Syllabus）、作业要求和课程资料。
@@ -10,7 +12,7 @@
 
 **怎么用：**
 
-[手机云端入口](https://campus-coursework-mobile-kamegui.kamegui0910.chatgpt.site)（目前仅站点本人可登录，电脑关机也能用）。[云端源码](cloud/README.md)可另行部署；资料与本机版分别保存。
+[手机云端入口](https://campus-coursework-mobile-kamegui.kamegui0910.chatgpt.site)（公开访客可用，无需强制邮箱或 ChatGPT 登录，电脑关机也能用）。[云端源码](cloud/README.md)可另行部署；资料与本机版分别保存。
 
 Windows 用户可从 [Releases](https://github.com/kamegui0910-eng/campus-coursework/releases) 下载完整便携包，解压后打开 EXE，配置自己的模型并添加学校账号。
 
@@ -34,7 +36,7 @@ $skill-installer Install skills/campus-coursework from https://github.com/kamegu
 
 **How to use:**
 
-[Mobile cloud app](https://campus-coursework-mobile-kamegui.kamegui0910.chatgpt.site) (currently private to the site owner; works while the computer is off). [Cloud source](cloud/README.md) is available for your own deployment. Cloud and desktop data are stored separately.
+[Mobile cloud app](https://campus-coursework-mobile-kamegui.kamegui0910.chatgpt.site) (public guest access without mandatory email or ChatGPT sign-in; works while the computer is off). [Cloud source](cloud/README.md) is available for your own deployment. Cloud and desktop data are stored separately.
 
 On Windows, download the complete portable ZIP from [Releases](https://github.com/kamegui0910-eng/campus-coursework/releases), extract it, open the EXE, connect your model, and add your school account.
 
@@ -52,4 +54,4 @@ You can also use the skill on its own. Website access, scheduled work, and submi
 
 [安装和测试步骤](cloud/docs/BROWSER_IMPORT.md) · [浏览器助手源码](cloud/browser-extension/) · [下载测试扩展ZIP](cloud/public/downloads/coursework-browser-helper.zip)。
 
-采集与导入不调用模型、不收集密码或导出会话。手机可使用已导入资料；手机直接登录学校的云端浏览器未配置。这个更新是cloud/版本，desktop/安装包没有重建。现有网站仍保留所有者访问范围，测试者可自行运行/部署源码。真实学校兼容性仍需试用。
+采集与导入不调用模型、不收集密码或导出会话。手机可使用已导入资料；手机直接登录学校的云端浏览器未配置。这个更新是cloud/版本，desktop/安装包没有重建。网站已公开供访客测试，数据按各自空间隔离；测试者也可自行运行/部署源码。真实学校兼容性仍需试用。

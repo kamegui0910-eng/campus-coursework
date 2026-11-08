@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-08",
+  "project": "Coursework",
+  "handoff": "HANDOFF.md",
+  "github": "https://github.com/kamegui0910-eng/campus-coursework",
+  "branch": "main",
+  "minimumMainAncestor": "08810c5743689f9727211b80e2e93124932f03a3",
+  "publishedSourceCommit": "f99e6cf055c8a97950eb4b43c02df319e055d96e",
+  "siteVersion": 12,
+  "siteUrl": "https://campus-coursework-mobile-kamegui.kamegui0910.chatgpt.site",
+  "access": "public guest entry; owner-isolated data",
+  "mapping": {"siteRoot": "cloud/ in GitHub", "desktop": "separate implementation; preserve"},
+  "skill": "skills/cloud-local-sync/SKILL.md",
+  "validation": {"appTests": "10 files pass", "collector": "separate suite previously passed; combined suite timeout recorded", "typecheck": "pass", "build": "pass", "visualBrowser": "not verified"},
+  "runtimeData": "Private keys, databases, school sessions and user files are not in source sync",
+  "deployment": "Runtime remains the published v12; this handoff does not redeploy",
+  "supersedes": ["older GitHub-write-pending notices", "owner-only access notices", "old release-pending descriptions for completed v12 changes"]
+}

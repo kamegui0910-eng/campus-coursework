@@ -38,3 +38,7 @@ metadata:
 返回：来源与目标提交、接收分支/路径、变更内容、验证结果、待完成项、是否部署。另一个聊天不会自动收到本对话消息：把 [接续指令](START_HERE.txt) 与交接清单发给它，或放到已有项目入口和技能索引；不宣称已通知不可访问的聊天。
 
 实现同步难题前先检索官方文档/已有代码，优先复用 Git 自带能力，避免为同步新增模型调用。参考：[Git bundle](https://git-scm.com/docs/git-bundle)、[Git worktree](https://git-scm.com/docs/git-worktree)。
+
+## Coursework 自动同步入口
+
+每次经过验证并提交的云端更新，运行 `python scripts/sync-github.py --mirror <干净的GitHub工作树> --branch <该工作树当前sync分支> --receipt <仓库外回执路径>`。该入口仅打包已提交源码，映射到 GitHub 的 `cloud/`，保留桌面代码，不强推、不携带学校会话、不新增模型调用。推送后核对远端 SHA；权限不足时退出码为 2，保留本地提交并将回执记为 pending。修复 GitHub 授权后重新运行即可。不能将 pending 回执说成已经同步成功。

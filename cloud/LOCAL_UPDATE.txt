@@ -1,1 +1,1 @@
-使用 skills/cloud-local-sync/SKILL.md，先读 sync/2026-11-08.json。保留本地未提交修改，先独立接收和比较。网页源码、Windows程序、数据库迁移、生产发布分别验证。
+电脑端 Codex 接收云端更新：先读 HANDOFF.md 和 sync/latest.json，再调用 skills/cloud-local-sync/SKILL.md。GitHub main 已包含 v12 网页源码；在 GitHub 仓库中它位于 cloud/。保留本地改动和密钥，先 fetch、核验、独立接收与比较。网页源码、Windows EXE、私有数据库与生产部署分别验收。旧的 403/未发布说明已被最新交接覆盖。
