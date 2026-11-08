@@ -1,0 +1,10 @@
+我要接收并继续开发我们在云端更新的 Coursework。
+仓库：https://github.com/kamegui0910-eng/campus-coursework ，分支 main。
+
+先检查当前目录、AGENTS.md、git status 和远端地址。保留本地未提交修改、密钥、数据库和学校登录会话；先 fetch origin main，在独立 worktree/分支中接收和比较，不 reset --hard、不 clean、不直接覆盖。
+
+先读最新 main 中的 cloud/HANDOFF.md 和 cloud/sync/latest.json，再使用 cloud/skills/cloud-local-sync/SKILL.md 完成接收。若本地尚无这些文件，先通过 fetch/git show 或独立克隆读取，不以旧工作区缺少文件为由停止。网页源码位于 cloud/；桌面程序单独维护，不把拉取网页源码说成 EXE 已更新。
+
+把交接中的产品目标、用户偏好和能力边界作为本会话接续背景。按清单运行相关检查；先在本机实际检查配置流程、截图缩放、模型推荐和专业/材料指南。报告实际远端 SHA、本地接收目录、保留修改、检查结果和剩余问题。
+
+如同时接续月喵，按 cloud/HANDOFF.md 最后一节的独立来源定位，不从 Coursework 的 cloud/ 推断月喵源码已接收。
