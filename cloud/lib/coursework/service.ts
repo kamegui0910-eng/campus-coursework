@@ -383,7 +383,7 @@ export function createCourseworkService({db,bucket,encryptionKey,user,fetchImpl=
         const sameOrigin=Boolean(previous.baseUrl&&new URL(previous.baseUrl).origin===new URL(settings.baseUrl).origin);
         const apiKey=p.apiKey?secretText(p.apiKey):sameOrigin?await key(saved.model_secret,'model'):'';
         if(!apiKey)throw new Error('请先粘贴当前平台的密钥，或使用快捷授权。');
-        return createModelClient({settings,apiKey,fetchImpl}).test();
+        return createModelClient({settings,apiKey,fetchImpl,timeoutMs:15000}).test();
       }
       case 'model.test':{const saved=await savedSettings();return createModelClient({settings:json(saved.model,{}),apiKey:await key(saved.model_secret,'model'),fetchImpl}).test();}
       case 'canvas.save':{

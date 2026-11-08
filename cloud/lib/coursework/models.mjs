@@ -44,6 +44,7 @@ export function createModelClient({settings,apiKey='',fetchImpl=fetch,timeoutMs=
       const result=await request('models');
       if(result.unsupported)return {verified:false,generationVerified:false,models:[],message:'此接口没有模型列表，请填写模型名称后运行一次任务；尚未验证生成能力。'};
       const list=result.data.data||result.data.models;
+      if(Array.isArray(list)&&!list.length)return {verified:false,generationVerified:false,models:[],message:'账号返回的模型列表为空。请核对 API key 的模型读取权限，或在高级设置填写平台提供的模型名称。'};
       if(!Array.isArray(list))return {verified:false,generationVerified:false,models:[],message:'接口已响应，但未返回模型列表；请检查接口格式。'};
       return {verified:true,generationVerified:false,models:list.slice(0,1000).map(item=>typeof item==='string'?item:item.id||item.name).filter(value=>typeof value==='string').map(value=>redact(value,key).slice(0,240)),message:'模型列表已核验，生成能力需运行一次任务确认。'};
     },

@@ -25,12 +25,13 @@
     "model discovery and selection without copying model ID",
     "mobile help links outside labels with full-page navigation and copy fallback",
     "Field Notes setup redesign using user-supplied five-color palette",
-    "provider-specific phone and desktop illustrated guides in onboarding and settings",
-    "48 downloadable static step diagrams with zoom and official source links",
-    "Gemini official OpenAI-compatible provider preset"
+    "Gemini official OpenAI-compatible provider preset",
+    "real attributed console screenshots replace generated diagrams",
+    "connection progress, provider errors and success stay beside the key button",
+    "bounded model discovery request and whitespace-tolerant key paste"
   ],
   "verification": {
-    "tests": "Eight behavior test files passing, including guide asset completeness and Gemini compatibility contract",
+    "tests": "Nine behavior test files pass, including client timeout/errors and screenshot assets",
     "typecheck": "passed",
     "build": "passed",
     "browser": "mocked collector and import integration; real school and browser extension not yet tested"
@@ -44,6 +45,6 @@
     "phone-only remote browser provider setup",
     "real user-approved OpenRouter authorization round trip"
   ],
-  "production": "v8 live; per-provider illustrated guide release pending",
-  "github": "Authorized; v8 merged via PR #2; guide release pending sync"
+  "production": "v9 live; real screenshot and connection feedback fixes pending",
+  "github": "Authorized; v9 merged via PR #3; latest fixes pending sync"
 }
