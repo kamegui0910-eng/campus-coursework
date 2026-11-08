@@ -397,3 +397,13 @@ test('existing workspace remains usable and valid AI setup can finish without pr
  await assert.rejects(f.b.handle('onboarding.save',{step:7}),/步骤/);
  f.sqlite.close();
 });
+
+test('model discovery needs no model ID, never saves input, and never forwards a saved key to another origin',async()=>{
+ const calls=[];const f=fixture(async(url,init)=>{calls.push({url,init});return Response.json({data:[{id:'first-actual-model'}]});});
+ const discovered=await f.a.handle('model.discover',{baseUrl:'https://api.example.com/v1',apiStyle:'chat-completions',apiKey:'synthetic-discovery-key'});
+ assert.deepEqual(discovered.models,['first-actual-model']);assert.equal((await f.a.handle('state.get')).settings.hasKey,false);assert.equal(calls[0].init.method,'GET');
+ await f.a.handle('model.save',{baseUrl:'https://api.example.com/v1',model:'first-actual-model',apiStyle:'chat-completions',apiKey:'synthetic-saved-key'});
+ await assert.rejects(f.a.handle('model.discover',{baseUrl:'https://other.example.com/v1',apiStyle:'chat-completions'}),/当前平台/);assert.equal(calls.length,1);
+ await assert.rejects(f.b.handle('model.discover',{baseUrl:'https://api.example.com/v1',apiStyle:'chat-completions'}),/当前平台/);assert.equal(calls.length,1);
+ await f.a.handle('model.discover',{baseUrl:'https://api.example.com/v1',apiStyle:'chat-completions'});assert.equal(calls[1].init.headers.Authorization,'Bearer synthetic-saved-key');f.sqlite.close();
+});

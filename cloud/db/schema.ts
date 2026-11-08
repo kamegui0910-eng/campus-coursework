@@ -59,3 +59,10 @@ export const onboarding = sqliteTable("campus_onboarding", {
   step: integer("step").notNull().default(0), courseDeferred: integer("course_deferred").notNull().default(0),
   completedAt: text("completed_at"), updatedAt: text("updated_at").notNull(),
 });
+
+export const modelConnections = sqliteTable('campus_model_connections', {
+ ownerId:text('owner_id').primaryKey(),
+ stateHash:text('state_hash').notNull(),
+ verifierSecret:text('verifier_secret').notNull(),
+ expiresAt:integer('expires_at').notNull(),
+});
