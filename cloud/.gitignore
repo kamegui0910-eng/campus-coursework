@@ -43,3 +43,8 @@ yarn-error.log*
 
 # OS metadata
 .DS_Store
+
+# Private browser exports and session state
+*.coursework.json
+/playwright/.auth/
+/browser-data/

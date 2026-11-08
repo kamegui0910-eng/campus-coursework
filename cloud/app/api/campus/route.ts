@@ -28,8 +28,8 @@ async function boundedBody(request:Request,maximum:number){
 export async function GET(request:Request){
   try{
     if(new URL(request.url).searchParams.get('health')==='1'){
-      const tables=env.DB?await env.DB.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name IN ('campus_courses','campus_materials','campus_assignments','campus_outputs','campus_settings')").all():null;
-      const ready=Boolean(env.DB&&env.BUCKET&&env.CAMPUS_ENCRYPTION_KEY&&tables?.results.length===5);
+      const tables=env.DB?await env.DB.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name IN ('campus_courses','campus_materials','campus_assignments','campus_outputs','campus_settings','campus_jobs')").all():null;
+      const ready=Boolean(env.DB&&env.BUCKET&&env.CAMPUS_ENCRYPTION_KEY&&tables?.results.length===6);
       return json({ok:ready,data:{ready,database:Boolean(env.DB),files:Boolean(env.BUCKET),encryption:Boolean(env.CAMPUS_ENCRYPTION_KEY),schemaTables:tables?.results.length||0}},ready?200:503);
     }
     const current=await service();if(current.error)return current.error;

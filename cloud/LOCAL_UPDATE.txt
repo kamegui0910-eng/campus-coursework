@@ -1,0 +1,1 @@
+使用 skills/cloud-local-sync/SKILL.md，先读 sync/2026-11-08.json。保留本地未提交修改，先独立接收和比较。网页源码、Windows程序、数据库迁移、生产发布分别验证。

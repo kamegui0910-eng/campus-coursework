@@ -45,3 +45,11 @@ On Windows, download the complete portable ZIP from [Releases](https://github.co
 You can also use the skill on its own. Website access, scheduled work, and submission require tools that support them and permission from your school.
 
 [Skill](skills/campus-coursework/SKILL.md) · [Setup guide / 接入说明](skills/campus-coursework/references/portable-runtime.md)
+
+## Browser import test release / 浏览器导入测试版
+
+没有学校API Token也可在Chrome/Edge正常登录Canvas，用浏览器助手选择课程导出，再在云端“添加课程”预览导入。
+
+[安装和测试步骤](cloud/docs/BROWSER_IMPORT.md) · [浏览器助手源码](cloud/browser-extension/) · [下载测试扩展ZIP](cloud/public/downloads/coursework-browser-helper.zip)。
+
+采集与导入不调用模型、不收集密码或导出会话。手机可使用已导入资料；手机直接登录学校的云端浏览器未配置。这个更新是cloud/版本，desktop/安装包没有重建。现有网站仍保留所有者访问范围，测试者可自行运行/部署源码。真实学校兼容性仍需试用。

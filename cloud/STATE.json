@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-08",
+  "project": "Coursework cloud",
+  "baselineSourceCommit": "71bdfc1d285d834841b4fb2c49ebc139ba3fdaec",
+  "completed": [
+    "URL-first Canvas course discovery and selected-term preview",
+    "multi-course import with stable IDs",
+    "syllabus attachment preservation and browser extraction",
+    "assignment classification and estimated grade-impact highlighting",
+    "current/zero-inclusive/target grade calculator",
+    "portable synchronization skill",
+    "active-tab Canvas browser collector without API Token",
+    "data-only export preview and explicit owner-scoped import",
+    "reuse existing PDF/DOCX extraction and task persistence",
+    "downloadable unpacked Chrome/Edge test extension"
+  ],
+  "verification": {
+    "tests": "36 behavior cases: 8 helpers, 3 grade, 21 service, 2 package, 2 collector; mocked schools only",
+    "typecheck": "passed",
+    "build": "passed",
+    "browser": "mocked collector and import integration; real school and browser extension not yet tested"
+  },
+  "not_complete": [
+    "institution OAuth developer key registration and callback integration",
+    "other LMS automatic connectors",
+    "real school authorization/sync testing",
+    "browser UI QA",
+    "Windows desktop feature parity",
+    "phone-only remote browser provider setup"
+  ],
+  "production": "prior source live as Site v3; this browser-import change pending validation/publication",
+  "github": "connection reports zero installations; write requires repository access"
+}

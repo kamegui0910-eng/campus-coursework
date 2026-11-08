@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer, index } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, index, uniqueIndex } from "drizzle-orm/sqlite-core";
 
 export const courses = sqliteTable("campus_courses", {
   id: text("id").primaryKey(), ownerId: text("owner_id").notNull(), name: text("name").notNull(),
@@ -40,3 +40,16 @@ export const settings = sqliteTable("campus_settings", {
   modelSecret: text("model_secret"), canvas: text("canvas").notNull().default("{}"),
   canvasSecret: text("canvas_secret"), updatedAt: text("updated_at").notNull(),
 });
+export const jobs = sqliteTable("campus_jobs", {
+  id: text("id").primaryKey(), ownerId: text("owner_id").notNull(), courseId: text("course_id").notNull(),
+  requestId: text("request_id").notNull(), fingerprint: text("fingerprint").notNull(),
+  status: text("status").notNull(), payload: text("payload").notNull(), outputId: text("output_id").notNull(),
+  retryOf: text("retry_of"), leaseUntil: integer("lease_until").notNull(), error: text("error").notNull().default(""),
+  createdAt: text("created_at").notNull(), updatedAt: text("updated_at").notNull(),
+}, table => [uniqueIndex("campus_jobs_request").on(table.ownerId, table.requestId), index("campus_jobs_owner_course").on(table.ownerId, table.courseId)]);
+
+
+export const lmsSnapshots = sqliteTable("campus_lms_snapshots", {
+  courseId: text("course_id").primaryKey(), ownerId: text("owner_id").notNull(),
+  snapshot: text("snapshot").notNull(), updatedAt: text("updated_at").notNull(),
+}, table => [index("campus_lms_snapshots_owner").on(table.ownerId)]);
