@@ -53,6 +53,7 @@
     "phone-only remote browser provider setup",
     "real user-approved OpenRouter authorization round trip"
   ],
-  "production": "v11 live; discipline/material guide release pending",
-  "github": "Authorized; v11 merged via PR #5; guide release pending sync"
+  "production": "v12 deployed and public; runtime source f99e6cf055c8a97950eb4b43c02df319e055d96e",
+  "github": "v12 source merged main at 08810c5743689f9727211b80e2e93124932f03a3; handoff metadata follows on main",
+  "handoff": "HANDOFF.md; sync/latest.json"
 }
