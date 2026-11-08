@@ -1,5 +1,6 @@
 import { MAX_FILE, KINDS, id, text, publicUrl, modelSettings, secretText, sha256, encryptSecret, decryptSecret, boundedText, htmlText, ownedMaterials, excerpt } from './helpers.mjs';
 import { createModelClient } from './models.mjs';
+import {recommendation,recommendModels} from './model-recommendations.mjs';
 import { parseCourseLink, termIsCurrent, classifyAssignment, assignmentImpact, calculateGrades, LMS_PROVIDERS } from './lms.mjs';
 
 import {setupStatus,setupChange} from './onboarding.mjs';
@@ -375,6 +376,14 @@ export function createCourseworkService({db,bucket,encryptionKey,user,fetchImpl=
         const saved=await savedSettings(),previous=json<Row>(saved.model,{}),next=modelSettings(p);
         const changed=previous.baseUrl&&new URL(previous.baseUrl).origin!==new URL(next.baseUrl).origin;
         if(changed||p.deleteKey===true)saved.model_secret=null;
+        if(next.selectionMode==='recommended'){
+          const apiKey=p.apiKey?secretText(p.apiKey):await key(saved.model_secret,'model');
+          if(!apiKey)throw new Error('自动推荐需要先连接当前平台的密钥。');
+          const listed=await createModelClient({settings:next,apiKey,fetchImpl,timeoutMs:15000}).test();
+          const picked=recommendation(listed.models||[],next.preference);
+          if(!listed.verified||!picked.model)throw new Error('无法从当前账号列表中确认推荐模型，请重新读取列表或手动指定。');
+          next.model=picked.model;
+        }
         if(p.apiKey)saved.model_secret=await protect(secretText(p.apiKey),'model');
         saved.model=JSON.stringify(next);await saveSettings(saved,'model');return {message:'模型设置已保存。',settings:{...next,hasKey:Boolean(saved.model_secret)}};
       }
@@ -383,7 +392,7 @@ export function createCourseworkService({db,bucket,encryptionKey,user,fetchImpl=
         const sameOrigin=Boolean(previous.baseUrl&&new URL(previous.baseUrl).origin===new URL(settings.baseUrl).origin);
         const apiKey=p.apiKey?secretText(p.apiKey):sameOrigin?await key(saved.model_secret,'model'):'';
         if(!apiKey)throw new Error('请先粘贴当前平台的密钥，或使用快捷授权。');
-        return createModelClient({settings,apiKey,fetchImpl,timeoutMs:15000}).test();
+        const listed=await createModelClient({settings,apiKey,fetchImpl,timeoutMs:15000}).test();return {...listed,recommendations:recommendModels(listed.models||[])};
       }
       case 'model.test':{const saved=await savedSettings();return createModelClient({settings:json(saved.model,{}),apiKey:await key(saved.model_secret,'model'),fetchImpl}).test();}
       case 'canvas.save':{

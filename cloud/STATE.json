@@ -28,10 +28,15 @@
     "Gemini official OpenAI-compatible provider preset",
     "real attributed console screenshots replace generated diagrams",
     "connection progress, provider errors and success stay beside the key button",
-    "bounded model discovery request and whitespace-tolerant key paste"
+    "bounded model discovery request and whitespace-tolerant key paste",
+    "coursework/economy/complex model preferences with available-list recommendations",
+    "server-verified recommended model choice stored with fixed settings",
+    "searchable manual model selection and specialist filtering",
+    "compact provider buttons and clearer configuration hierarchy",
+    "current model shown before work and actual model recorded on output"
   ],
   "verification": {
-    "tests": "Nine behavior test files pass, including client timeout/errors and screenshot assets",
+    "tests": "Application suite: 9 files pass; collector separately: 1 file passes. Combined collector/application run has service timeout; isolated suites verified.",
     "typecheck": "passed",
     "build": "passed",
     "browser": "mocked collector and import integration; real school and browser extension not yet tested"
@@ -45,6 +50,6 @@
     "phone-only remote browser provider setup",
     "real user-approved OpenRouter authorization round trip"
   ],
-  "production": "v9 live; real screenshot and connection feedback fixes pending",
-  "github": "Authorized; v9 merged via PR #3; latest fixes pending sync"
+  "production": "v10 live; model recommendations and visual refinement pending",
+  "github": "Authorized; v10 merged via PR #4; new recommendation release pending sync"
 }
