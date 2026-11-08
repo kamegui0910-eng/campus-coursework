@@ -33,3 +33,11 @@ Sign in with ChatGPT, connect your model, create a course and upload its complet
 电脑 Chrome/Edge 正常登录学校后，用 [浏览器助手](browser-extension/README.txt) 选择课程导出，再在云端“添加课程”里预览导入。助手与导入均不调用模型，不收集密码或导出会话。
 
 [完整使用与测试说明](docs/BROWSER_IMPORT.md) · [可移植 Skill](skills/coursework-browser-import/SKILL.md)。手机可使用已导入资料；手机直接登录学校的远程浏览器尚未配置。站点访问范围不随源码分享自动扩大。
+
+## Public guest mode / 公开访客模式
+
+无需邮箱或ChatGPT登录即可使用独立访客空间。空间与当前浏览器的HttpOnly Cookie关联，30天未访问、清除Cookie或换设备后不能自动找回，请保留资料导出。已有ChatGPT登录仍可进入原账号空间；访客资料不会自动合并。每个访客最多20门课程、100MB资料，使用自己的模型配置。
+
+## 零基础新手教程
+
+网页 `/guide` 无需登录，详细介绍资料导入、API账号/密钥/费用、模型设置、第一次提问和常见报错。可直接把教程网址发给朋友。平台预填按钮只填地址，不开通账号、不充值、不自动调用模型。

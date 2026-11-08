@@ -2,6 +2,7 @@ import { MAX_FILE, KINDS, id, text, publicUrl, modelSettings, secretText, sha256
 import { createModelClient } from './models.mjs';
 import { parseCourseLink, termIsCurrent, classifyAssignment, assignmentImpact, calculateGrades, LMS_PROVIDERS } from './lms.mjs';
 
+import {setupStatus,setupChange} from './onboarding.mjs';
 import {validateBrowserPackage} from './browser-package.mjs';
 import { initialReview, recordReview } from './review-state.mjs';
 type Row = Record<string, any>;
@@ -30,8 +31,10 @@ export function createCourseworkService({db,bucket,encryptionKey,user,fetchImpl=
     await run(`INSERT INTO campus_settings (owner_id,model,model_secret,canvas,canvas_secret,updated_at) VALUES (?,?,?,?,?,?) ON CONFLICT(owner_id) DO UPDATE SET ${columns},updated_at=excluded.updated_at`,owner,row.model,row.model_secret,row.canvas,row.canvas_secret,date());
   }
   const key = (value:string|null,kind:string) => decryptSecret(value,encryptionKey,owner,kind);
+  async function guestCourseCapacity(){if(owner.startsWith('guest:')){const n=await first('SELECT COUNT(*) AS count FROM campus_courses WHERE owner_id=?',owner);if(Number(n?.count)>=20)throw new Error('访客空间最多20门课程，请先删除不需要的课程。');}}
   const protect = (value:string,kind:string) => encryptSecret(value,encryptionKey,owner,kind);
   async function removeObjects(keys:string[]){for(let offset=0;offset<keys.length;offset+=500)await bucket.delete(keys.slice(offset,offset+500));}
+  async function onboardingStatus(saved:Row,courses:Row[],outputs:Row[]){const row=await first('SELECT * FROM campus_onboarding WHERE owner_id=?',owner),model=json<Row>(saved.model,{});return setupStatus(row,{modelReady:Boolean(model.baseUrl&&model.model&&saved.model_secret),courseCount:courses.length,outputCount:outputs.length});}
   async function state(){
     await run("UPDATE campus_jobs SET status='interrupted',error='生成连接已过期；请先核对成果，再确认是否重试。',updated_at=? WHERE owner_id=? AND status='running' AND lease_until<?",date(),owner,Date.now());
     const [courses,materials,assignments,outputs,jobs,saved]=await Promise.all([
@@ -42,7 +45,7 @@ export function createCourseworkService({db,bucket,encryptionKey,user,fetchImpl=
     const snapshots=await all('SELECT * FROM campus_lms_snapshots WHERE owner_id=?',owner);
     const enriched=assignments.map(r=>{const snapshot=json<Row>(snapshots.find(s=>s.course_id===r.course_id)?.snapshot,{});const task=snapshot.assignments?.find((a:Row)=>String(a.id)===r.external_id);return {...asAssignment(r),classification:classifyAssignment(task||{title:r.title},snapshot.assignments||[]),impact:task?assignmentImpact(task,snapshot):null};});
     return {user:{displayName:user.displayName,email:user.email},courses:courses.map(asCourse),materials:materials.map(asMaterial),assignments:enriched,outputs:outputs.map(asOutput),jobs:jobs.map(asJob),
-      settings:{...json(saved.model,{}),hasKey:Boolean(saved.model_secret)},canvas:{...json(saved.canvas,{}),hasToken:Boolean(saved.canvas_secret)},
+      onboarding:await onboardingStatus(saved,courses,outputs),settings:{...json(saved.model,{}),hasKey:Boolean(saved.model_secret)},canvas:{...json(saved.canvas,{}),hasToken:Boolean(saved.canvas_secret)},
       capabilities:{cloudStorage:true,canvasApi:true,modelGeneration:true,durableGenerationJobs:true,cloudBrowser:false,browserImport:true,externalDetector:false,officialSubmission:false,scheduling:false,maxFileBytes:MAX_FILE,listingLimits:{courses:100,materials:1000,assignments:500,outputs:30}}};
   }
   async function loadText(row:Row){
@@ -79,6 +82,7 @@ export function createCourseworkService({db,bucket,encryptionKey,user,fetchImpl=
     const sourceSha=await sha256(input.body), textSha=await sha256(input.text);
     const existing=await first('SELECT * FROM campus_materials WHERE owner_id=? AND course_id=? AND source_sha=? AND text_sha=? AND extraction_status=? AND kind=?',owner,c.id,sourceSha,textSha,input.extractionStatus,input.kind);
     if(existing)return {material:asMaterial(existing),message:'这份相同内容的资料已经保存，继续使用原版本。'};
+    if(owner.startsWith('guest:')){const used=await first('SELECT COALESCE(SUM(bytes),0) AS bytes FROM campus_materials WHERE owner_id=?',owner);if(Number(used?.bytes)+input.body.byteLength>100*1024*1024)throw new Error('访客资料空间已达到100MB，请删除不需要的资料后再上传。');}
     const previous=await first('SELECT id FROM campus_materials WHERE owner_id=? AND course_id=? AND file_name=? AND kind=?',owner,c.id,input.fileName,input.kind);
     const materialId=uuid(),prefix=(await sha256(owner)).slice(0,32)+'/'+c.id+'/'+materialId;
     const objectKey=prefix+'/original',textKey=prefix+'/text';
@@ -170,7 +174,7 @@ export function createCourseworkService({db,bucket,encryptionKey,user,fetchImpl=
     for(const externalId of selected){
       const remote=discovery.courses.find(c=>c.externalId===externalId)!;
       let existing=await first('SELECT * FROM campus_courses WHERE owner_id=? AND school_url=? AND external_id=? AND lms_type=?',owner,discovery.baseUrl,externalId,'canvas');
-      if(!existing){const courseId=uuid();await run('INSERT INTO campus_courses (id,owner_id,name,school_url,external_id,term,lms_type,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?)',courseId,owner,remote.name.slice(0,200),discovery.baseUrl,externalId,remote.term.slice(0,100),'canvas',date(),date());existing=await course(courseId);}
+      if(!existing){await guestCourseCapacity();const courseId=uuid();await run('INSERT INTO campus_courses (id,owner_id,name,school_url,external_id,term,lms_type,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?)',courseId,owner,remote.name.slice(0,200),discovery.baseUrl,externalId,remote.term.slice(0,100),'canvas',date(),date());existing=await course(courseId);}
       try{results.push({courseId:existing.id,name:remote.name,ok:true,...await syncCanvas({courseId:existing.id})});}
       catch(error:any){results.push({courseId:existing.id,name:remote.name,ok:false,error:error.message});}
     }
@@ -329,8 +333,15 @@ export function createCourseworkService({db,bucket,encryptionKey,user,fetchImpl=
   async function handle(action:string,p:Row={}){
     switch(action){
       case 'state.get':return state();
+      case 'onboarding.save':{
+        const saved=await savedSettings(),courses=await all('SELECT id FROM campus_courses WHERE owner_id=?',owner),outputs=await all('SELECT id FROM campus_outputs WHERE owner_id=? LIMIT 1',owner),current=await onboardingStatus(saved,courses,outputs);
+        const next=setupChange(p,current);
+        await run('INSERT INTO campus_onboarding (owner_id,mode,step,course_deferred,completed_at,updated_at) VALUES (?,?,?,?,?,?) ON CONFLICT(owner_id) DO UPDATE SET mode=excluded.mode,step=excluded.step,course_deferred=excluded.course_deferred,completed_at=excluded.completed_at,updated_at=excluded.updated_at',owner,next.mode,next.step,next.courseDeferred?1:0,next.completed?date():null,date());
+        return {...next,modelReady:current.modelReady,courseCount:current.courseCount};
+      }
       case 'course.create':{
-        const courseId=uuid(),name=text(p.name,'课程名称',200,true),school=publicUrl(p.schoolUrl,'学校地址'),lmsType=p.lmsType||'other';
+        await guestCourseCapacity();
+        const courseId=uuid(),name=text(p.name,'课程名称',200,true),lmsType=p.lmsType||'other',school=lmsType==='other'&&!p.schoolUrl?'':publicUrl(p.schoolUrl,'学校地址');
         if(!['canvas','blackboard','other'].includes(lmsType))throw new Error('请选择学校系统。');
         await run('INSERT INTO campus_courses (id,owner_id,name,school_url,external_id,term,lms_type,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?)',courseId,owner,name,school,text(p.externalId,'官方课程 ID',100),text(p.term,'学期',100),lmsType,date(),date());
         return asCourse(await course(courseId));
@@ -386,7 +397,7 @@ export function createCourseworkService({db,bucket,encryptionKey,user,fetchImpl=
         const pkg=validateBrowserPackage(p.package),remote=pkg.courses.find((c:Row)=>c.id===String(p.externalId));
         if(!remote)throw new Error('请选择导入包中的课程。');
         let c=await first('SELECT * FROM campus_courses WHERE owner_id=? AND school_url=? AND external_id=? AND lms_type=?',owner,pkg.schoolUrl,remote.id,'canvas');
-        if(!c){const courseId=uuid();await run('INSERT INTO campus_courses (id,owner_id,name,school_url,external_id,term,lms_type,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?)',courseId,owner,remote.name,pkg.schoolUrl,remote.id,remote.term,'canvas',date(),date());c=await course(courseId);}
+        if(!c){await guestCourseCapacity();const courseId=uuid();await run('INSERT INTO campus_courses (id,owner_id,name,school_url,external_id,term,lms_type,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?)',courseId,owner,remote.name,pkg.schoolUrl,remote.id,remote.term,'canvas',date(),date());c=await course(courseId);}
         const gaps=[...remote.gaps];
         if(!remote.assignmentsComplete)gaps.push('作业列表未完整采集；已保留现有任务。');
         if(!remote.groupsComplete)gaps.push('评分组未完整采集，成绩试算需要核对。');

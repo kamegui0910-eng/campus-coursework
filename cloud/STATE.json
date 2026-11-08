@@ -1,7 +1,7 @@
 {
   "date": "2026-11-08",
   "project": "Coursework cloud",
-  "baselineSourceCommit": "71bdfc1d285d834841b4fb2c49ebc139ba3fdaec",
+  "baselineSourceCommit": "44582ef9932d2698025cfb744c57db85c9ffc9e9",
   "completed": [
     "URL-first Canvas course discovery and selected-term preview",
     "multi-course import with stable IDs",
@@ -12,10 +12,18 @@
     "active-tab Canvas browser collector without API Token",
     "data-only export preview and explicit owner-scoped import",
     "reuse existing PDF/DOCX extraction and task persistence",
-    "downloadable unpacked Chrome/Edge test extension"
+    "downloadable unpacked Chrome/Edge test extension",
+    "public guest entry without required ChatGPT/email sign-in",
+    "separate high-entropy guest sessions and owner-scoped records",
+    "visitor course/storage limits and optional existing sign-in",
+    "static provider address presets and field explanations",
+    "first-run four-step contextual setup before dashboard",
+    "owner-scoped saved setup progress and server completion checks",
+    "AI-optional setup, minimal first course and in-place field guidance",
+    "committed-source GitHub mirror helper with verified/pending receipts"
   ],
   "verification": {
-    "tests": "36 behavior cases: 8 helpers, 3 grade, 21 service, 2 package, 2 collector; mocked schools only",
+    "tests": "40 behavior cases; six test files pass",
     "typecheck": "passed",
     "build": "passed",
     "browser": "mocked collector and import integration; real school and browser extension not yet tested"
@@ -28,6 +36,6 @@
     "Windows desktop feature parity",
     "phone-only remote browser provider setup"
   ],
-  "production": "prior source live as Site v3; this browser-import change pending validation/publication",
+  "production": "Guided setup release pending publication",
   "github": "connection reports zero installations; write requires repository access"
 }

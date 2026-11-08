@@ -352,3 +352,48 @@ test('browser import needs confirmation, deduplicates and preserves official sta
   const older=structuredClone(pkg);older.capturedAt='2026-11-07T01:00:00Z';await assert.rejects(f.a.handle('browser.import',{package:older,externalId:'101',confirmed:true}),/更旧/);
  }finally{f.sqlite.close();}
 });
+
+test('anonymous guests have separate data and secrets, with course and storage limits',async()=>{
+ const f=fixture();
+ try{
+  const {guestIdentity,newGuestToken}=await import('../guest-session.mjs');
+  const a=createCourseworkService({db:f.db,bucket:f.bucket,encryptionKey,user:await guestIdentity(newGuestToken())});
+  const b=createCourseworkService({db:f.db,bucket:f.bucket,encryptionKey,user:await guestIdentity(newGuestToken())});
+  const course=await createCourse(a),file=await upload(a,course,'# Guest syllabus');
+  assert.equal((await b.handle('state.get')).courses.length,0);await assert.rejects(b.download(file.id),/没有找到你的/);
+  await a.handle('model.save',{baseUrl:'https://api.example.com',model:'fixture',apiStyle:'chat-completions',apiKey:'private-guest-model-key'});
+  assert.equal((await b.handle('state.get')).settings.hasKey,false);assert.equal((await f.a.handle('state.get')).settings.hasKey,false);
+  f.sqlite.prepare('UPDATE campus_materials SET bytes=? WHERE id=?').run(100*1024*1024,file.id);
+  await assert.rejects(upload(a,course,'# Another version','syllabus','Other.md'),/100MB/);
+  for(let index=1;index<20;index++)await createCourse(a,{name:'Guest '+index});await assert.rejects(createCourse(a),/20门/);
+  assert.equal((await f.a.handle('state.get')).courses.length,0);
+ }finally{f.sqlite.close();}
+});
+
+test('onboarding completion uses saved credentials and owned courses, persists and isolates owners',async()=>{
+ const f=fixture();
+ assert.equal((await f.a.handle('state.get')).onboarding.completed,false);
+ await assert.rejects(f.a.handle('onboarding.save',{mode:'ai',step:3,complete:true,courseDeferred:true,modelReady:true}),/先保存/);
+ await assert.rejects(f.a.handle('onboarding.save',{mode:'library',step:3,complete:true}),/第一门/);
+ await f.a.handle('onboarding.save',{mode:'library',step:2});
+ assert.equal((await f.a.handle('state.get')).onboarding.step,2);
+ assert.equal((await f.b.handle('state.get')).onboarding.step,0);
+ const c=await createCourse(f.a,{lmsType:'other',schoolUrl:''});assert.equal(c.schoolUrl,'');
+ await f.a.handle('onboarding.save',{mode:'library',step:3,complete:true});
+ const restored=createCourseworkService({db:f.db,bucket:f.bucket,encryptionKey,user:{userId:'owner-a',email:'a@example.invalid',displayName:'A'}});
+ assert.equal((await restored.handle('state.get')).onboarding.completed,true);
+ assert.equal((await f.b.handle('state.get')).onboarding.completed,false);
+ await f.b.handle('onboarding.save',{mode:'library',step:3,complete:true,courseDeferred:true});
+ assert.equal((await f.b.handle('state.get')).onboarding.completed,true);
+ await assert.rejects(createCourse(f.b,{schoolUrl:''}),/地址/);
+ f.sqlite.close();
+});
+test('existing workspace remains usable and valid AI setup can finish without provider generation',async()=>{
+ const f=fixture();await createCourse(f.a);
+ assert.equal((await f.a.handle('state.get')).onboarding.completed,true);
+ await f.b.handle('model.save',{baseUrl:'https://api.example.com/v1',model:'test-model',apiStyle:'chat-completions',apiKey:'synthetic-setup-only-key'});
+ await f.b.handle('onboarding.save',{mode:'ai',step:3,complete:true,courseDeferred:true});
+ assert.equal((await f.b.handle('state.get')).onboarding.completed,true);
+ await assert.rejects(f.b.handle('onboarding.save',{step:7}),/步骤/);
+ f.sqlite.close();
+});

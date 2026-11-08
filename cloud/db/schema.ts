@@ -53,3 +53,9 @@ export const lmsSnapshots = sqliteTable("campus_lms_snapshots", {
   courseId: text("course_id").primaryKey(), ownerId: text("owner_id").notNull(),
   snapshot: text("snapshot").notNull(), updatedAt: text("updated_at").notNull(),
 }, table => [index("campus_lms_snapshots_owner").on(table.ownerId)]);
+
+export const onboarding = sqliteTable("campus_onboarding", {
+  ownerId: text("owner_id").primaryKey(), mode: text("mode").notNull().default("ai"),
+  step: integer("step").notNull().default(0), courseDeferred: integer("course_deferred").notNull().default(0),
+  completedAt: text("completed_at"), updatedAt: text("updated_at").notNull(),
+});
