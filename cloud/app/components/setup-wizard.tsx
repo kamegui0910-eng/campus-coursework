@@ -5,15 +5,10 @@ import {campusApi as api} from '@/lib/campus-api';
 import {readFile} from '@/lib/client-files';
 import BrowserImport from './browser-import';
 import ProviderHelp from './provider-help';
+import ProviderGuide from './provider-guide';
+import {AI_PROVIDERS as providers} from '@/lib/guides/provider-guides.mjs';
 import {preferredModel} from '@/lib/coursework/model-choice.mjs';
 
-const providers=[
- {id:'openrouter',name:'OpenRouter',letter:'↗',style:'chat-completions',url:'https://openrouter.ai/api/v1',keys:'https://openrouter.ai/settings/keys',models:'https://openrouter.ai/models'},
- {id:'openai',name:'OpenAI',letter:'O',style:'responses',url:'https://api.openai.com/v1',keys:'https://platform.openai.com/api-keys',models:'https://developers.openai.com/api/docs/models'},
- {id:'deepseek',name:'DeepSeek',letter:'D',style:'chat-completions',url:'https://api.deepseek.com',keys:'https://platform.deepseek.com',models:'https://api-docs.deepseek.com/api/list-models'},
- {id:'claude',name:'Claude',letter:'C',style:'anthropic',url:'https://api.anthropic.com/v1',keys:'https://platform.claude.com/settings/keys',models:'https://platform.claude.com/docs/en/about-claude/models/overview'},
- {id:'custom',name:'其他兼容平台',letter:'＋',style:'chat-completions',url:'',keys:'',models:''},
-];
 const steps=['选择方式','连接 AI','添加课程','准备就绪'];
 type Workspace={onboarding:{mode:string;step:number;completed:boolean;modelReady:boolean;courseCount:number;courseDeferred:boolean};courses:Array<{id:string;name:string}>;materials:Array<{id:string;courseId:string;kind:string;title:string}>;settings:{apiStyle?:string;baseUrl?:string;model?:string;hasKey?:boolean}};
 function Logo(){return <a href="/" className="setup-logo"><span aria-hidden="true">C<span>✦</span></span><b>CAMPUS<small>COURSEWORK</small></b></a>;}
@@ -76,7 +71,7 @@ export default function SetupWizard({state,restart=false,loadError='',onRefresh,
   </div>:<>
    <div className="setup-providers" role="group" aria-label="选择 AI 平台">{providers.map(p=><button key={p.id} className={provider===p.id?'selected':''} aria-pressed={provider===p.id} disabled={Boolean(busy)} onClick={()=>pickProvider(p.id)}><span>{p.letter}</span>{p.name}</button>)}</div>
    <form onSubmit={connect} autoComplete="off">
-    <div className="connect-field-group"><label className="setup-field" htmlFor="provider-key"><span>API 密钥</span><input id="provider-key" type="password" autoComplete="new-password" value={config.apiKey} onChange={e=>{setConfig(c=>({...c,apiKey:e.target.value}));setModels([]);}} placeholder={sameSaved?'已安全保存，可留空':'粘贴你自己的 API Key'} disabled={Boolean(busy)}/><small>接口地址已填好。密钥加密保存，不会回显。</small></label>{selected.keys&&<ProviderHelp href={selected.keys} label="去官方平台获取密钥"/>}</div>
+    <ProviderGuide key={provider} providerId={provider}/><div className="connect-field-group"><label className="setup-field" htmlFor="provider-key"><span>API 密钥</span><input id="provider-key" type="password" autoComplete="new-password" value={config.apiKey} onChange={e=>{setConfig(c=>({...c,apiKey:e.target.value}));setModels([]);}} placeholder={sameSaved?'已安全保存，可留空':'粘贴你自己的 API Key'} disabled={Boolean(busy)}/><small>接口地址已填好。密钥加密保存，不会回显。</small></label>{selected.keys&&<ProviderHelp href={selected.keys} label="去官方平台获取密钥"/>}</div>
     <button className="setup-secondary model-discover" type="button" disabled={Boolean(busy)||(!config.apiKey&&!sameSaved)} onClick={discover}><Link2 size={16}/>读取可用模型</button>
     {(models.length>0||config.model)&&<label className="setup-field"><span>选择模型</span><select value={config.model} disabled={Boolean(busy)} onChange={e=>setConfig(c=>({...c,model:e.target.value}))}>{config.model&&!models.includes(config.model)&&<option value={config.model}>{config.model}（当前设置）</option>}{models.map(m=><option key={m} value={m}>{m}</option>)}</select><small>从实际接口读取，不需要去网页寻找或复制 model ID。模型价格请核对供应商账单。</small></label>}
     <details className="setup-help"><summary>还没有密钥，或链接打不开？<ChevronDown size={15}/></summary><p>可以切换到上方“快捷授权”。继续手动连接时，先在官方平台创建 API Key，再粘贴到这里。聊天会员和 API 通常分别计费。</p><p>链接会在当前完整页面打开；如内置浏览器仍拦截，点“复制网址”，粘贴到 Safari 或 Chrome。返回后从已保存步骤继续。</p></details>
