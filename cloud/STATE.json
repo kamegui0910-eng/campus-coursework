@@ -24,10 +24,13 @@
     "optional OpenRouter PKCE authorization without copying API key",
     "model discovery and selection without copying model ID",
     "mobile help links outside labels with full-page navigation and copy fallback",
-    "Field Notes setup redesign using user-supplied five-color palette"
+    "Field Notes setup redesign using user-supplied five-color palette",
+    "provider-specific phone and desktop illustrated guides in onboarding and settings",
+    "48 downloadable static step diagrams with zoom and official source links",
+    "Gemini official OpenAI-compatible provider preset"
   ],
   "verification": {
-    "tests": "44 behavior cases across seven passing test files",
+    "tests": "Eight behavior test files passing, including guide asset completeness and Gemini compatibility contract",
     "typecheck": "passed",
     "build": "passed",
     "browser": "mocked collector and import integration; real school and browser extension not yet tested"
@@ -41,6 +44,6 @@
     "phone-only remote browser provider setup",
     "real user-approved OpenRouter authorization round trip"
   ],
-  "production": "v7 live; simplified connection and redesign pending publication",
-  "github": "Write authorization fixed; previous release merged to main via PR #1; this release pending sync"
+  "production": "v8 live; per-provider illustrated guide release pending",
+  "github": "Authorized; v8 merged via PR #2; guide release pending sync"
 }
