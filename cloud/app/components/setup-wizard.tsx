@@ -7,17 +7,18 @@ import BrowserImport from './browser-import';
 import ProviderHelp from './provider-help';
 import ProviderGuide from './provider-guide';
 import {AI_PROVIDERS as providers} from '@/lib/guides/provider-guides.mjs';
-import {preferredModel} from '@/lib/coursework/model-choice.mjs';
+import ModelChooser from './model-chooser';
+import {recommendation} from '@/lib/coursework/model-recommendations.mjs';
 
 const steps=['选择方式','连接 AI','添加课程','准备就绪'];
-type Workspace={onboarding:{mode:string;step:number;completed:boolean;modelReady:boolean;courseCount:number;courseDeferred:boolean};courses:Array<{id:string;name:string}>;materials:Array<{id:string;courseId:string;kind:string;title:string}>;settings:{apiStyle?:string;baseUrl?:string;model?:string;hasKey?:boolean}};
+type Workspace={onboarding:{mode:string;step:number;completed:boolean;modelReady:boolean;courseCount:number;courseDeferred:boolean};courses:Array<{id:string;name:string}>;materials:Array<{id:string;courseId:string;kind:string;title:string}>;settings:{apiStyle?:string;baseUrl?:string;model?:string;hasKey?:boolean;selectionMode?:string;preference?:string}};
 function Logo(){return <a href="/" className="setup-logo"><span aria-hidden="true">C<span>✦</span></span><b>CAMPUS<small>COURSEWORK</small></b></a>;}
 export function SetupLoading(){return <main className="setup-shell"><header className="setup-top"><Logo/><span className="setup-private"><ShieldCheck size={15}/>无需邮箱 · 独立空间</span></header><section className="setup-loading"><LoaderCircle className="spin" size={28}/><h1>准备你的学习空间</h1><p>正在读取已保存的配置与进度…</p></section></main>;}
 
 export default function SetupWizard({state,restart=false,loadError='',onRefresh,onComplete,onExit}:{state:Workspace;restart?:boolean;loadError?:string;onRefresh:()=>Promise<any>;onComplete:()=>Promise<void>;onExit?:()=>void}){
  const [step,setStep]=useState(restart?0:state.onboarding.step),[mode,setMode]=useState(state.onboarding.mode),[busy,setBusy]=useState(''),[error,setError]=useState(loadError),[note,setNote]=useState('');
  const firstProvider=providers.find(p=>p.url&&p.url===state.settings.baseUrl)?.id||(state.settings.baseUrl?'custom':'openai');
- const [provider,setProvider]=useState(firstProvider),[config,setConfig]=useState({apiStyle:state.settings.apiStyle||'responses',baseUrl:state.settings.baseUrl||providers.find(p=>p.id==='openai')!.url,model:state.settings.model||'',apiKey:''});
+ const [provider,setProvider]=useState(firstProvider),[config,setConfig]=useState({apiStyle:state.settings.apiStyle||'responses',baseUrl:state.settings.baseUrl||providers.find(p=>p.id==='openai')!.url,model:state.settings.model||'',apiKey:'',selectionMode:state.settings.selectionMode||'manual',preference:state.settings.preference||'balanced'});
  const [connectionPath,setConnectionPath]=useState<'quick'|'manual'>(state.settings.baseUrl?'manual':'quick');
  const [models,setModels]=useState<string[]>([]),[courseMethod,setCourseMethod]=useState<'file'|'browser'>('file'),[name,setName]=useState(''),[school,setSchool]=useState(''),[chosen,setChosen]=useState(state.courses[0]?.id||''),[file,setFile]=useState<File|undefined>(),[deferred,setDeferred]=useState(state.onboarding.courseDeferred);
  const connectionFeedback=useRef<HTMLDivElement>(null);
@@ -27,13 +28,14 @@ export default function SetupWizard({state,restart=false,loadError='',onRefresh,
  useEffect(()=>{const status=new URLSearchParams(window.location.search).get('connection');if(status==='connected'){setConnectionPath('manual');setNote('OpenRouter 已授权。可直接沿用当前模型，也可以读取列表后更换。');}if(status==='failed')setError('授权没有完成或已过期，请重新连接。原设置没有被删除。');if(status)window.history.replaceState(null,'',window.location.pathname);},[]);
  const act=async(label:string,work:()=>Promise<void>)=>{if(busy)return;setBusy(label);setError('');setNote('');try{await work();}catch(e){setError(e instanceof Error?e.message:'这一步还没完成，请重试。');}finally{setBusy('');}};
  async function go(next:number,extra:Record<string,unknown>={}){await api('onboarding.save',{mode,step:next,courseDeferred:deferred,...extra});await onRefresh();setStep(next);setNote('');}
- function pickProvider(id:string){const p=providers.find(p=>p.id===id)!;setProvider(id);setConfig({apiStyle:p.style,baseUrl:p.url,model:'',apiKey:''});setModels([]);setNote('');setError('');}
+ function pickProvider(id:string){const p=providers.find(p=>p.id===id)!;setProvider(id);setConfig({apiStyle:p.style,baseUrl:p.url,model:'',apiKey:'',selectionMode:'manual',preference:'balanced'});setModels([]);setNote('');setError('');}
  const sameSaved=Boolean(state.settings.hasKey&&state.settings.baseUrl===config.baseUrl);
  async function discover(){await act('正在读取可用模型…',async()=>{
   if(!config.apiKey&&!sameSaved)throw Error('请先粘贴当前平台的密钥。');
   const checked=await api<{verified:boolean;models:string[];message:string}>('model.discover',config);
-  setModels(checked.models||[]);setConfig(c=>({...c,model:preferredModel(checked.models||[],c.model)}));
-  setNote(checked.verified?`已连接，读取到 ${checked.models.length} 个模型。请选择模型后保存。`:checked.message);
+  const picked=recommendation(checked.models||[],'balanced');
+  setModels(checked.models||[]);setConfig(c=>({...c,model:picked.model,selectionMode:picked.model?'recommended':'manual',preference:'balanced'}));
+  setNote(checked.verified?`连接成功。已检查 ${checked.models.length} 个型号，下面会帮你挑选适合课程工作的模型。`:checked.message);
  });}
  async function connect(event:FormEvent){event.preventDefault();await act('正在保存连接…',async()=>{
   if(!config.apiKey&&!sameSaved)throw Error('请填入当前平台的 API 密钥，或使用快捷授权。');
@@ -80,9 +82,9 @@ export default function SetupWizard({state,restart=false,loadError='',onRefresh,
      {error&&<div className="setup-error" role="alert"><b>连接未完成</b><p>{error}</p><small>核对上方所选平台与密钥是否一致；密钥不要发到聊天里。</small></div>}
      {note&&<p className="setup-notice" role="status">{note}</p>}
     </div>
-    {(models.length>0||config.model)&&<label className="setup-field"><span>选择模型</span><select value={config.model} disabled={Boolean(busy)} onChange={e=>setConfig(c=>({...c,model:e.target.value}))}>{config.model&&!models.includes(config.model)&&<option value={config.model}>{config.model}（当前设置）</option>}{models.map(m=><option key={m} value={m}>{m}</option>)}</select><small>从实际接口读取，不需要去网页寻找或复制 model ID。模型价格请核对供应商账单。</small></label>}
+    {(models.length>0||config.model)&&<ModelChooser models={models.length?models:[config.model]} value={config} disabled={Boolean(busy)} onChange={choice=>setConfig(c=>({...c,...choice}))}/>}
     <details className="setup-help"><summary>还没有密钥，或链接打不开？<ChevronDown size={15}/></summary><p>可以切换到上方“快捷授权”。继续手动连接时，先在官方平台创建 API Key，再粘贴到这里。聊天会员和 API 通常分别计费。</p><p>链接会在当前完整页面打开；如内置浏览器仍拦截，点“复制网址”，粘贴到 Safari 或 Chrome。返回后从已保存步骤继续。</p></details>
-    <details className="setup-help" open={provider==='custom'}><summary>高级设置与手动模型名称 <ChevronDown size={15}/></summary><label className="setup-field"><span>接口类型</span><select value={config.apiStyle} onChange={e=>{setConfig(c=>({...c,apiStyle:e.target.value}));setModels([]);}}><option value="responses">OpenAI Responses</option><option value="chat-completions">OpenAI 兼容 Chat Completions</option><option value="anthropic">Anthropic Messages</option></select></label><label className="setup-field"><span>API Base URL</span><input required type="url" value={config.baseUrl} onChange={e=>{setConfig(c=>({...c,baseUrl:e.target.value,apiKey:''}));setModels([]);}} placeholder="供应商官方 API 地址"/><small>仅自定义平台需要更改；填基础地址，不添加 /responses 等路径。</small></label><label className="setup-field"><span>手动模型名称（接口不提供列表时）</span><input value={config.model} onChange={e=>setConfig(c=>({...c,model:e.target.value}))} placeholder="供应商提供的完整 model ID"/></label>{selected.models&&<ProviderHelp href={selected.models} label="查看官方模型说明"/>}</details>
+    <details className="setup-help" open={provider==='custom'}><summary>高级设置与手动模型名称 <ChevronDown size={15}/></summary><label className="setup-field"><span>接口类型</span><select value={config.apiStyle} onChange={e=>{setConfig(c=>({...c,apiStyle:e.target.value}));setModels([]);}}><option value="responses">OpenAI Responses</option><option value="chat-completions">OpenAI 兼容 Chat Completions</option><option value="anthropic">Anthropic Messages</option></select></label><label className="setup-field"><span>API Base URL</span><input required type="url" value={config.baseUrl} onChange={e=>{setConfig(c=>({...c,baseUrl:e.target.value,apiKey:''}));setModels([]);}} placeholder="供应商官方 API 地址"/><small>仅自定义平台需要更改；填基础地址，不添加 /responses 等路径。</small></label><label className="setup-field"><span>手动模型名称（接口不提供列表时）</span><input value={config.model} onChange={e=>setConfig(c=>({...c,model:e.target.value,selectionMode:'manual'}))} placeholder="供应商提供的完整 model ID"/></label>{selected.models&&<ProviderHelp href={selected.models} label="查看官方模型说明"/>}</details>
     <button className="setup-primary" disabled={Boolean(busy)||!config.model} type="submit">保存连接，继续 <ArrowRight size={18}/></button>
    </form>
    <p className="setup-fine">读取模型列表不等于已验证问答能力。只有你主动发起任务时，才会调用模型。</p>

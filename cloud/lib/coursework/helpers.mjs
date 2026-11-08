@@ -24,7 +24,9 @@ export function publicUrl(value, label = '接口地址') {
 export function modelSettings(value = {}) {
   const apiStyle = value.apiStyle || 'chat-completions';
   if (!['chat-completions','responses','anthropic'].includes(apiStyle)) throw new Error('请选择受支持的模型接口格式。');
-  return { provider:text(value.provider,'供应商',80), apiStyle, model:text(value.model,'模型名称',240,true),
+  const selectionMode=value.selectionMode||'manual',preference=value.preference||'balanced';
+  if(!['manual','recommended'].includes(selectionMode)||!['balanced','economy','quality'].includes(preference))throw new Error('请选择有效的模型选择方式。');
+  return { selectionMode,preference,provider:text(value.provider,'供应商',80), apiStyle, model:text(value.model,'模型名称',240,true),
     baseUrl:publicUrl(value.baseUrl).replace(/\/(?:chat\/completions|responses|messages|models)$/, '').replace(/\/+$/, '') };
 }
 export function secretText(value) {

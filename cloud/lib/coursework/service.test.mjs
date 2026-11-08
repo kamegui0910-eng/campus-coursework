@@ -407,3 +407,20 @@ test('model discovery needs no model ID, never saves input, and never forwards a
  await assert.rejects(f.b.handle('model.discover',{baseUrl:'https://api.example.com/v1',apiStyle:'chat-completions'}),/当前平台/);assert.equal(calls.length,1);
  await f.a.handle('model.discover',{baseUrl:'https://api.example.com/v1',apiStyle:'chat-completions'});assert.equal(calls[1].init.headers.Authorization,'Bearer synthetic-saved-key');f.sqlite.close();
 });
+
+test('recommended model saving verifies the current account list, ignores forged recommendations and stays fixed',async()=>{
+ const calls=[];const f=fixture(async(url,init)=>{calls.push({url,init});return Response.json({data:[{id:'gpt-5-mini'},{id:'gpt-5'},{id:'gpt-5-nano'},{id:'text-embedding-3-large'}]});});
+ const result=await f.a.handle('model.save',{baseUrl:'https://api.openai.com/v1',apiStyle:'responses',model:'forged-expensive-model',selectionMode:'recommended',preference:'balanced',apiKey:'synthetic-recommend-key'});
+ assert.equal(result.settings.model,'gpt-5-mini');assert.equal(calls.length,1);assert.equal(calls[0].init.method,'GET');
+ const saved=(await f.a.handle('state.get')).settings;assert.equal(saved.selectionMode,'recommended');assert.equal(saved.preference,'balanced');assert.equal(saved.model,'gpt-5-mini');
+ assert.equal((await f.b.handle('state.get')).settings.model,undefined);
+ await assert.rejects(f.a.handle('model.save',{baseUrl:'https://different.example.com/v1',apiStyle:'responses',model:'gpt-5-mini',selectionMode:'recommended',preference:'balanced'}),/当前平台/);assert.equal(calls.length,1);
+ assert.equal((await f.a.handle('state.get')).settings.model,'gpt-5-mini');
+ await f.a.handle('model.save',{baseUrl:'https://api.openai.com/v1',apiStyle:'responses',model:'gpt-5',selectionMode:'manual'});assert.equal(calls.length,1);assert.equal((await f.a.handle('state.get')).settings.selectionMode,'manual');f.sqlite.close();
+});
+test('unrecognized provider models require manual choice without overwriting a saved connection',async()=>{
+ const f=fixture(async()=>Response.json({data:[{id:'unknown-private-text-model'}]}));
+ await f.a.handle('model.save',{baseUrl:'https://api.example.com/v1',model:'my-model',apiStyle:'chat-completions',apiKey:'synthetic-original-key'});
+ await assert.rejects(f.a.handle('model.save',{baseUrl:'https://api.example.com/v1',model:'placeholder',apiStyle:'chat-completions',selectionMode:'recommended',preference:'balanced'}),/手动指定/);
+ assert.equal((await f.a.handle('state.get')).settings.model,'my-model');f.sqlite.close();
+});
