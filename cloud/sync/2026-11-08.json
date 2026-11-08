@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-08",
+  "project": "coursework-site",
+  "baseline": "6e0bb33fbb49d46d782f2d785621b5bea221f9ec",
+  "skill": "skills/cloud-local-sync/SKILL.md",
+  "status": "implemented and locally validated; not yet deployed; GitHub write permission unavailable",
+  "local_update": "Preserve dirty work; receive independently; inspect paths before integration",
+  "mapping": {
+    "siteSource": ".",
+    "githubDestination": "cloud",
+    "desktop": "Separate app; do not overwrite desktop with cloud source"
+  },
+  "private_data": "not included; do not sync API keys, school sessions or customer records",
+  "verification": {
+    "tests": "local behavior and mocked API tests pass",
+    "build": "passed",
+    "browser": "unverified: managed Sites environment has no cua_repl.js",
+    "live_external": "not tested"
+  }
+}

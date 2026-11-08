@@ -1,0 +1,8 @@
+{
+ "manifest_version":3,
+ "name":"Coursework 浏览器助手 · 测试版",
+ "version":"0.1.0",
+ "description":"正常登录Canvas后，主动选择导出本人可访问的课程资料；不读取密码或导出登录会话。",
+ "permissions":["activeTab","scripting"],
+ "action":{"default_popup":"popup.html","default_title":"导出我的课程"}
+}

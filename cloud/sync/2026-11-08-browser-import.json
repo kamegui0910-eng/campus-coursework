@@ -1,0 +1,14 @@
+{
+  "project": "Coursework",
+  "baseline": "71bdfc1d285d834841b4fb2c49ebc139ba3fdaec",
+  "sourceLayout": "Sites root maps to GitHub cloud/; desktop/ is preserved",
+  "entry": "docs/BROWSER_IMPORT.md",
+  "skills": [
+    "skills/coursework-browser-import/SKILL.md",
+    "skills/cloud-local-sync/SKILL.md"
+  ],
+  "data": "No real school credentials/data included",
+  "limits": "Chrome/Edge extension, no remote cloud browser provisioned",
+  "release": "publish after checks per user authorization; keep Site audience",
+  "github": "write access pending"
+}
