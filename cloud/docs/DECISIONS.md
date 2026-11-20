@@ -89,3 +89,11 @@ Add a six-row model-family comparison, a complete file-support reference and lin
 Primary sources consulted before implementation: https://developers.openai.com/api/docs/guides/file-inputs ; https://developers.openai.com/api/docs/guides/tools-code-interpreter ; https://platform.claude.com/docs/en/build-with-claude/pdf-support ; https://platform.claude.com/docs/en/build-with-claude/vision ; https://ai.google.dev/gemini-api/docs/video-understanding ; https://ai.google.dev/gemini-api/docs/document-processing ; https://api-docs.deepseek.com/guides/vision/ . Model fit is editorial task-matching guidance, not a measured cross-major benchmark. No live price quotes or inferred file capabilities are added to the automatic selector.
 
 Verification: application suite (10 files) and TypeScript pass; tests cover available-model selection, explicit stronger-model fallback and media/workbook support boundaries. Existing collector behavior is unchanged and remains separately tested as recorded above. Browser control remains unavailable; visual interaction QA is pending. No model-generation call or real key is needed for the guide.
+
+## 2026-11-20 — 收口到资料、起草检查和只读 Canvas
+
+继续投入课程资料管理、AI 起草与检查，以及只读 Canvas 浏览器扩展。云端仍是 `cloud/` 的 Next.js，持久化仍用已有 D1 `DB` 与 R2 `BUCKET`。本地资料库、工作台和 skill 里的起草/检查保持可用。浏览器助手继续只读取本人已登录会话里可见的课程，不提交、不答题、不保存学校密码。
+
+暂停学校登录自动化和作业自动提交，不再为这两项加功能或排期。桌面 `desktop/scope.cjs` 默认 `schoolLoginAutomation: false`、`officialAutoSubmit: false`。应用状态里的 `browserAutomation` 不再报 `login-only`，`officialSubmission` 保持 false。`login.open` 与 `login.fill` 在开关关闭时直接拒绝；历史登录回放、凭据保存和提交说明留在仓库，供查阅和清除旧记录，不作为当前路径。技能模板 `submission.mode` 维持 `draft_only`，不把 `scoped_auto_submit` 当成可执行授权。
+
+替代路径是本人在学校官方页面登录并提交，内容检查使用咩咩学校分身。Canvas API 只读同步和手动导入仍属于资料管理，不视为恢复自动登录或自动提交。本次不删除历史模块，也不改动线上部署。

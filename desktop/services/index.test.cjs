@@ -31,6 +31,8 @@ test('persistent real courses remain isolated, and secret settings await safe st
   assert.equal(f.secret.get('modelApiKey'),'');
   const readback=await f.call('state.get');assert.equal(readback.courses.length,2);
   assert.equal(readback.capabilities.officialSubmission,false);assert.equal(readback.capabilities.externalDetector,false);
+  assert.equal(readback.capabilities.officialAutoSubmit,false);assert.equal(readback.capabilities.schoolLoginAutomation,false);
+  assert.equal(readback.capabilities.browserAutomation,false);assert.equal(readback.capabilities.courseLibrary,true);
 });
 
 test('manual imports preserve actual files, readable coverage and correct course ownership; failedPDF stays unverified',async t=>{

@@ -1,19 +1,23 @@
 ---
 name: campus-coursework
 description: >
-  Manage an authorized student's course workflow in Canvas or another school LMS:
-  verify login, read each official syllabus, maintain separate course libraries,
-  bind each assignment to relevant source versions and chapters, delegate reading
-  and writing, schedule recurring work when requested, route every draft through
-  final audit and configured detector gates, and verify authorized submissions.
-  Use for ongoing course management or packaging a syllabus-to-submission
-  workflow; also triggered by 学校系统、课程大纲、作业分工、定时作业、自动交作业.
+  Organize an authorized student's course libraries, bind each assignment to
+  the right source versions, and help draft and review work. School login
+  automation and automatic submission are paused; sign in and submit manually,
+  and use 咩咩学校分身 for assisted review. Also triggered by 学校系统、课程大纲、
+  作业分工、起草、检查. Requests to automate school login or auto-submit stay manual.
   A single offline essay edit does not need this course-management workflow.
 ---
 
 # 课程与作业总控
 
-将使用者授权管理的课程推进到可核验的成果：课程基线、资料覆盖记录、作业台账、责任分工、实际创建的定时任务、可审阅成稿，以及获准提交后的正式回执。按真实课程需要推进，不固定为某个学校、某套教材或某个模型。
+## 当前范围（2026-11-20）
+
+继续做课程资料、起草和检查。学校登录自动化与作业自动提交已暂停（P2）。下面第 1 节的登录回放、第 4 节里通向自动提交的排程，以及第 7 节的正式提交，都只保留为历史参考，当前不执行。
+
+现在的路径：使用者在学校官方页面人工登录、人工提交；内容检查使用咩咩学校分身。模板 `submission.mode` 保持 `draft_only`。即使用户要求“自动交作业”，也只交付可审阅草稿并说明提交需本人在学校页面完成，不记录新的可执行自动提交授权。
+
+将使用者授权管理的课程推进到可核验的成果：课程基线、资料覆盖记录、作业台账、责任分工、可审阅成稿。按真实课程需要推进，不固定为某个学校、某套教材或某个模型。
 
 ## 首次使用与恢复执行
 
@@ -41,6 +45,10 @@ description: >
 | 最终审计、检测报告、退回修改与放行 | [final-audit.md](references/final-audit.md)；站点与分数解释见 [detector-standards.md](references/detector-standards.md) |
 
 ## 1. 登录并发现课程
+
+本节的演示登录、会话回放和凭据代填已暂停。发现课程前，请使用者在学校官方页面自行登录。已有只读 Canvas 导出或手动导入的资料时，直接使用那些资料。不要为了补登录去运行历史回放。
+
+以下段落是暂停前的历史参考，当前不要执行：
 
 优先用足以完成任务的已连接工具；需要网页或 Windows 时，读取当前可用 Computer Use 技能及其操作/确认规则，再操作真实页面。使用者已有登录偏好时沿用；其他学校按实际提供的学生/SSO入口，不套用作者学校的邮箱或登录顺序。
 
@@ -72,7 +80,9 @@ description: >
 
 ## 4. 请求持续执行时设置定时任务
 
-先读 [delegation-and-schedules.md](references/delegation-and-schedules.md)。先检查既有排程，按真实截止、学期和使用者时区倒排阅读、草稿、质量检查和提交核验，尽量合并同一职责的循环任务。迟交政策不等于自动延长提交窗口。
+定时任务可以覆盖阅读、起草和检查提醒。不要创建自动提交或自动登录任务。
+
+先读 [delegation-and-schedules.md](references/delegation-and-schedules.md)。先检查既有排程，按真实截止、学期和使用者时区倒排阅读、草稿和质量检查，尽量合并同一职责的循环任务。迟交政策不等于自动延长提交窗口，也不恢复自动提交。
 
 用当前环境的实际调度工具创建或更新，验证目标任务、提示词、执行环境、时区、状态及下次运行时间，保存工具返回的 ID。不复制作者原来的时刻、课程 ID、聊天 ID 或 automation ID。
 
@@ -99,6 +109,8 @@ description: >
 放行记录绑定最终文件 SHA-256、实际受检文本 SHA-256、题干版本与检测策略。任何后续内容变化使原放行失效；仅审计通过且其他提交条件满足时可标 ReadyToSubmit。更新本分享包不等于启动现有学校任务、改变既有课程授权或解除旧条件。
 
 ## 7. 按有效授权提交并保存证据
+
+自动提交已暂停。完成本节之前的起草和检查后，把成稿交给使用者，由使用者在学校页面人工提交。检查辅助使用咩咩学校分身。不要点击提交、不要代发讨论帖、不要把草稿标成 Submitted。下面的提交步骤是历史参考，当前不要执行。
 
 仅有本人对目标课程/作业和动作的有效授权，且课程允许的帮助、内容完整性与质量检查满足要求时，才进入正式提交。持续授权可涵盖明确课程、学期与作业类型，无需每次重复询问。未有授权时先完成可审阅成果，再提出具体提交请求；不以临近截止补出授权。
 

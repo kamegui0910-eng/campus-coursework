@@ -1,4 +1,10 @@
 'use strict';
+const { schoolLoginAutomation } = require('./scope.cjs');
+const AUTOMATED_LOGIN_ACTIONS = new Set(['login.open', 'login.fill']);
+function guardSchoolLoginAction(action) {
+  if (schoolLoginAutomation === true || !AUTOMATED_LOGIN_ACTIONS.has(action)) return;
+  throw new Error('学校登录自动化已暂停。请在学校官方页面人工登录，再用只读 Canvas 浏览器助手导出资料；作业检查使用咩咩学校分身。历史登录代码仍保留，当前默认不会打开自动登录窗口、回放步骤或填写已存凭据。');
+}
 const path = require('node:path');
 
 function createLoginBrowser({ BrowserWindow, session, ipcMain, dialog, store, parentWindow, onProgress } = {}) {
@@ -294,6 +300,7 @@ function createLoginBrowser({ BrowserWindow, session, ipcMain, dialog, store, pa
   }
   return {
     async handle(action, payload = {}) {
+      guardSchoolLoginAction(action);
       if (closing) throw new Error('程序正在关闭，请稍后重试。');
       switch (action) {
         case 'login.save': {
@@ -347,4 +354,4 @@ function createLoginBrowser({ BrowserWindow, session, ipcMain, dialog, store, pa
   };
 }
 
-module.exports = { createLoginBrowser };
+module.exports = { createLoginBrowser, guardSchoolLoginAction };

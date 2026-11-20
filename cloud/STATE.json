@@ -44,6 +44,28 @@
     "build": "passed",
     "browser": "mocked collector and import integration; real school and browser extension not yet tested"
   },
+  "scope": {
+    "decisionDate": "2026-11-20",
+    "active": [
+      "cloud Next.js course library on D1/R2",
+      "local course library",
+      "AI drafting and review",
+      "read-only Canvas browser extension"
+    ],
+    "paused": [
+      "school login automation",
+      "assignment auto-submit"
+    ],
+    "replacement": "manual school login and submission, with 咩咩学校分身 assisted review",
+    "historicalCode": "retained and not deleted",
+    "switches": {
+      "desktop/scope.cjs schoolLoginAutomation": false,
+      "desktop/scope.cjs officialAutoSubmit": false,
+      "desktop capabilities officialSubmission": false,
+      "desktop capabilities browserAutomation": false,
+      "skills profile submission.mode": "draft_only"
+    }
+  },
   "not_complete": [
     "institution OAuth developer key registration and callback integration",
     "other LMS automatic connectors",

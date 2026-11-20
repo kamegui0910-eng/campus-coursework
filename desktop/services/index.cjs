@@ -4,6 +4,7 @@ const crypto=require('node:crypto');
 const {pathToFileURL}=require('node:url');
 const {inside,htmlText,extractText,selectScope}=require('./files.cjs');
 const {createModelClient,normalizeSettings,validateBaseUrl}=require('./models.cjs');
+const {schoolLoginAutomation,officialAutoSubmit}=require('../scope.cjs');
 
 const now=()=>new Date().toISOString();
 const uuid=()=>crypto.randomUUID();
@@ -81,7 +82,7 @@ async function createService(options){
     for(const pending of config.pendingImports)materials.push({...pending,storage:'unverified',reading:{state:'not_read',covered:[],missing:[pending.error]},version:null,coverage:[]});
     return {workspace:config.workspace,courses,materials,tasks,schedules:config.schedules,events:config.events,outputs:config.outputs,
       settings:{...config.model,hasKey:Boolean(await secretStore.get('modelApiKey'))},canvas:{...config.canvas,hasToken:Boolean(await secretStore.get('canvasApiToken'))},
-      capabilities:{courseLibrary:true,modelGeneration:Boolean(config.model.baseUrl&&config.model.model),canvasApi:true,externalDetector:false,officialSubmission:false,browserAutomation:false,scheduling:'while-app-running',documentExport:'markdown-text'}};
+      capabilities:{courseLibrary:true,modelGeneration:Boolean(config.model.baseUrl&&config.model.model),canvasApi:true,externalDetector:false,officialSubmission:false,officialAutoSubmit:officialAutoSubmit===true,schoolLoginAutomation:schoolLoginAutomation===true,browserAutomation:false,scheduling:'while-app-running',documentExport:'markdown-text'}};
   }
   async function ingest(course,file,{kind=inferKind(file),title=path.basename(file),id='local-'+uuid(),sourceUrl=course.catalog.course.school_origin,sourceRevision='Local manual import '+now(),coverage=['all'],storage='downloaded',appliesTo=null,evidence='用户选择目标课程并手动导入；程序实际读取非空正文，学校来源与当前要求仍待核验。'}={}){
     const extracted=await extractText(file,options.pdfExtractor);

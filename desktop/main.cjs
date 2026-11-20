@@ -3,6 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 const { extractPdf } = require('./pdf.cjs');
+const { schoolLoginAutomation, officialAutoSubmit } = require('./scope.cjs');
 
 app.setName('Campus Coursework');
 const option = name => process.argv.find(value => value.startsWith(`--${name}=`))?.slice(name.length + 3);
@@ -150,7 +151,10 @@ async function initialize() {
       if (request.action === 'state.get') {
         const state = await service.handle('state.get');
         return { ok: true, data: { ...state, logins: await loginStore.list(),
-          capabilities: { ...state.capabilities, schoolLogin: true, browserLoginSessions: true, browserAutomation: 'login-only' } } };
+          capabilities: { ...state.capabilities, schoolLogin: schoolLoginAutomation === true,
+            browserLoginSessions: schoolLoginAutomation === true,
+            browserAutomation: schoolLoginAutomation === true ? 'login-only' : false,
+            officialSubmission: false, officialAutoSubmit: officialAutoSubmit === true } } };
       }
       return { ok: true, data: await service.handle(request.action, request.payload || {}) };
     } catch (error) {
