@@ -8,7 +8,7 @@
 4. Discover courses, check term dates, select up to five and export `.coursework.json`. Keep the popup open until export ends.
 5. In Coursework select that file, inspect the course/account label and missing materials, then explicitly confirm saving to your current account. PDF/DOCX extraction reuses the existing client extractor.
 
-School sessions remain in the user's own browser. This release neither collects passwords nor exports cookies, localStorage or browser profiles. It makes ordinary read requests using the already authenticated school session, including Canvas `/api/v1` routes. It does **not** promise to avoid all data endpoints, authenticate a remote cloud browser or support every LMS.
+School sessions remain in the user's own browser. This release neither collects passwords nor exports cookies, localStorage or browser profiles. It makes ordinary read requests using the already authenticated school session, including Canvas `/api/v1` routes. It does **not** promise to avoid all data endpoints, authenticate a remote cloud browser or support every LMS. This read-only import stays in the active product scope. School login automation and assignment auto-submit are paused and are not part of this flow.
 
 ## Architecture and reuse decision
 

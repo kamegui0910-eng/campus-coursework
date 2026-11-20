@@ -6,7 +6,7 @@
 
 首次使用：用自己的 ChatGPT 账号登录，在设置中连接模型，建立课程并上传完整 Syllabus。使用 Canvas API 时另填自己的学校地址和 Token。
 
-当前云端版提供课程库、上传下载、作业资料绑定、AI 工作台和成果保存。Windows 登录演示、学校网页 SSO、后台调度、外部检测和正式提交尚未接入云端。本机 EXE 的资料、账号密码和会话不会自动上传。
+当前云端版提供课程库、上传下载、作业资料绑定、AI 工作台和成果保存。这是保留中的核心。学校登录自动化和作业自动提交已暂停，不在云端补做；请在学校官网人工登录并提交，检查使用咩咩学校分身。本机 EXE 的资料、账号密码和会话不会自动上传。
 
 ## Development
 
@@ -26,7 +26,7 @@ Sites supplies ChatGPT sign-in. Every user-data operation checks the current use
 
 A cloud course workspace that works on your phone while your computer is off. Bring your own model/API, syllabus, assignment instructions and course materials. Organize each course, choose relevant sources, and prepare and review drafts.
 
-Sign in with ChatGPT, connect your model, create a course and upload its complete syllabus. Canvas API access requires your own school URL and Token. Desktop files and school sessions are not uploaded automatically. Cloud browser login, background scheduling, external detectors and official submission are not connected in this version.
+Sign in with ChatGPT, connect your model, create a course and upload its complete syllabus. Canvas API access requires your own school URL and Token. Desktop files and school sessions are not uploaded automatically. School login automation and automatic submission are paused. Sign in and submit on the school site yourself; use 咩咩学校分身 for assisted review.
 
 ## 无学校 API Token 的浏览器导入（测试版）
 

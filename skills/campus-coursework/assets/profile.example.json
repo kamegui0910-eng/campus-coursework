@@ -1,5 +1,11 @@
 {
   "schema_version": 2,
+  "product_scope": {
+    "school_login_automation": "paused",
+    "official_auto_submit": "paused",
+    "assisted_review": "咩咩学校分身",
+    "submission_path": "manual"
+  },
   "school": {
     "name": null,
     "lms_url": null,

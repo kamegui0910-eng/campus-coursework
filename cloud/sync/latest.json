@@ -13,6 +13,7 @@
   "skill": "skills/cloud-local-sync/SKILL.md",
   "validation": {"appTests": "10 files pass", "collector": "separate suite previously passed; combined suite timeout recorded", "typecheck": "pass", "build": "pass", "visualBrowser": "not verified"},
   "runtimeData": "Private keys, databases, school sessions and user files are not in source sync",
+  "scopeDecision": "2026-11-20: keep cloud and local course libraries, AI draft/review, and the read-only Canvas extension. School login automation and assignment auto-submit are paused. See AGENTS.md.",
   "deployment": "Runtime remains the published v12; this handoff does not redeploy",
   "supersedes": ["older GitHub-write-pending notices", "owner-only access notices", "old release-pending descriptions for completed v12 changes"]
 }

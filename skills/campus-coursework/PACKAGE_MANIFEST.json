@@ -7,8 +7,8 @@
   "files": [
     {
       "path": "agents/openai.yaml",
-      "bytes": 401,
-      "sha256": "2e102f9efec9f6ea06caa5fb29a4a943160e14d114c933ed5c1d006517f97814"
+      "bytes": 392,
+      "sha256": "30c50ab1b255b9e4410f7ff6362803d1f47de4c892bbefb72429afde89eea6de"
     },
     {
       "path": "assets/audit-record.example.json",
@@ -17,8 +17,8 @@
     },
     {
       "path": "assets/profile.example.json",
-      "bytes": 2652,
-      "sha256": "7421493dcf7aa5cc43b3985e4e990944d84db3a87c22c003c9aa1c7016b95707"
+      "bytes": 2834,
+      "sha256": "8a029bf1fe7cfe2e19790b86546cd0d9fd766f6eb27e5cdf97b327e8d3aee8ba"
     },
     {
       "path": "assets/runtime.example.json",
@@ -42,8 +42,8 @@
     },
     {
       "path": "references/delegation-and-schedules.md",
-      "bytes": 7839,
-      "sha256": "fd0e3632768d4260fdde3b35306a22297e59acf589a611d9c47d7b5b55113f16"
+      "bytes": 7946,
+      "sha256": "67dee5a74b37957946c572ac75cb2bcc7c8a462b5b5851297e3caed50b643c71"
     },
     {
       "path": "references/detector-standards.md",
@@ -57,23 +57,23 @@
     },
     {
       "path": "references/lms-and-sources.md",
-      "bytes": 5453,
-      "sha256": "8caf2b254420b31dc6803fe18b3977c7f71e1ae103d388c29be66074b0f66b48"
+      "bytes": 5659,
+      "sha256": "9b6fbcd7c797ab833b094463e7b6185072e9b163ed54a97df176a50560a1a335"
     },
     {
       "path": "references/onboarding-state.md",
-      "bytes": 10787,
-      "sha256": "411f0c1f14c6833d3f52aeddc91f65afe621f121425a1b0af17c87ed4f7a0186"
+      "bytes": 11017,
+      "sha256": "7def781299e84082c9dcb9e57b9c0b608c9d1e1f562849236d83983d9987b0b8"
     },
     {
       "path": "references/portable-runtime.md",
-      "bytes": 7811,
-      "sha256": "0ae8021a889442e85e0c9d47c425b9800da6c43f2bea08f35003e2ac32dcc916"
+      "bytes": 7759,
+      "sha256": "884853457b82191fb42adaf9e9eacf5b16688ac652a6a00683837d53b32bbd34"
     },
     {
       "path": "references/school-login.md",
-      "bytes": 4561,
-      "sha256": "91f732cadb26551658c355c2d259e9150e699328cd2d3195d1cf6d6aaf104636"
+      "bytes": 4981,
+      "sha256": "8a771f9464147c3cad313d832b0b69925e0278116694ac77e4047346f350047f"
     },
     {
       "path": "references/skill-routing.md",
@@ -82,8 +82,8 @@
     },
     {
       "path": "references/writing-and-submission.md",
-      "bytes": 8212,
-      "sha256": "106b23277895055f95b552971eed553b35bb6f1df0dd8a6687241994b5711e33"
+      "bytes": 8507,
+      "sha256": "c07ab682e407c6c3fd02feebc42e4894a992049d81b9af49e9f8114a2334e17e"
     },
     {
       "path": "scripts/course-library.mjs",
@@ -97,18 +97,18 @@
     },
     {
       "path": "SKILL.md",
-      "bytes": 14808,
-      "sha256": "7b5e4ed40f79ab42afd1f1954b2088dc19b92e76b6dae868cb58f8992627349d"
+      "bytes": 15970,
+      "sha256": "cdc36376e72def4b50901adbf86dc45da6a689ce65ea947d661aba1ec5db4393"
     },
     {
       "path": "START_FOR_AI.txt",
-      "bytes": 3481,
-      "sha256": "3ca5a27b6f611e88fd7228812a5e67f03714234a179a625e036d87fa16ceeda9"
+      "bytes": 3544,
+      "sha256": "4cf1de00b7634d8f25ae1495c5cc0ae9edb1e5053afe95633be6758c2891a136"
     },
     {
       "path": "分享与使用.md",
-      "bytes": 7889,
-      "sha256": "fa35544cb819c9e6f3835f1259ae6439e215e207e6cdba6d841526497181b335"
+      "bytes": 8023,
+      "sha256": "11e989e0739eb3dd5ec3ac1159ee8aad1e9138430a222ab3df09fc4c64eea3d2"
     }
   ]
 }
